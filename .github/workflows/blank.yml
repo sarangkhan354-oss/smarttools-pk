@@ -44,13 +44,19 @@ jobs:
           PORT: 8080
           BASE_PATH: /smarttools-pk/
 
-      - name: Prepare website files
+      - name: Build and locate website files
         run: |
-          set -e
+          set -eux
+          pnpm --filter @workspace/smarttools-pk build
+          echo "=== Generated index.html files ==="
+          find artifacts/smarttools-pk -type f -name index.html -print
+          echo "=== Build directory ==="
+          ls -la artifacts/smarttools-pk/dist/public || true
           test -f artifacts/smarttools-pk/dist/public/index.html
           touch artifacts/smarttools-pk/dist/public/.nojekyll
           mkdir -p _site
           cp -R artifacts/smarttools-pk/dist/public/. _site/
+
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
