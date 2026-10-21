@@ -39,49 +39,18 @@ jobs:
         run: pnpm install --no-frozen-lockfile
 
       - name: Build SmartTools PK
-        run: pnpm --filter smarttools-pk build
+        run: pnpm --filter @workspace/smarttools-pk build
+        env:
+          PORT: 8080
+          BASE_PATH: /smarttools-pk/
 
       - name: Prepare website files
-        shell: bash
         run: |
           set -e
-
-          SOURCE=""
-
-          for DIR in \
-            artifacts/smarttools-pk/dist/public \
-            artifacts/smarttools-pk/dist \
-            dist \
-            build \
-            public
-          do
-            if [ -f "$DIR/index.html" ]; then
-              SOURCE="$DIR"
-              break
-            fi
-          done
-
-          if [ -z "$SOURCE" ]; then
-            FILE=$(find . \
-              -type f \
-              -name index.html \
-              -not -path './node_modules/*' \
-              -not -path './.git/*' \
-              -not -path './.github/*' \
-              -not -path '*/src/*' \
-              -print -quit)
-
-            if [ -z "$FILE" ]; then
-              echo "ERROR: Built index.html not found."
-              exit 1
-            fi
-
-            SOURCE=$(dirname "$FILE")
-          fi
-
+          test -f artifacts/smarttools-pk/dist/public/index.html
+          touch artifacts/smarttools-pk/dist/public/.nojekyll
           mkdir -p _site
-          cp -RL "$SOURCE"/. _site/
-          test -f _site/index.html
+          cp -R artifacts/smarttools-pk/dist/public/. _site/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
