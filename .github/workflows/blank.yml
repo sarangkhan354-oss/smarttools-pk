@@ -44,19 +44,20 @@ jobs:
           PORT: 8080
           BASE_PATH: /smarttools-pk/
 
-      - name: Build and locate website files
-        run: |
-          set -eux
-          pnpm --filter @workspace/smarttools-pk build
-          echo "=== Generated index.html files ==="
-          find artifacts/smarttools-pk -type f -name index.html -print
-          echo "=== Build directory ==="
-          ls -la artifacts/smarttools-pk/dist/public || true
-          test -f artifacts/smarttools-pk/dist/public/index.html
-          touch artifacts/smarttools-pk/dist/public/.nojekyll
-          mkdir -p _site
-          cp -R artifacts/smarttools-pk/dist/public/. _site/
 
+      - name: Build and diagnose website
+        run: |
+          set -x
+          echo "=== Current directory ==="
+          pwd
+          echo "=== Project files ==="
+          ls -la artifacts/smarttools-pk
+          echo "=== Build ==="
+          pnpm --filter @workspace/smarttools-pk build
+          echo "=== Find generated index ==="
+          find artifacts/smarttools-pk -name index.html -type f -print
+          echo "=== Check expected output ==="
+          ls -la artifacts/smarttools-pk/dist/public
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
