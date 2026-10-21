@@ -38,18 +38,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --no-frozen-lockfile
 
-      - name: Build and prepare website
-        run: |
-          set -e
-          pnpm --filter @workspace/smarttools-pk build
-          test -f dist/index.html
-          touch dist/.nojekyll
-          mkdir -p _site
-          cp -R dist/. _site/
+      - name: Build website
+        run: pnpm run build
         env:
           PORT: 8080
           BASE_PATH: /smarttools-pk/
           NODE_ENV: production
+
+      - name: Prepare website files
+        run: |
+          set -e
+          test -f dist/index.html
+          touch dist/.nojekyll
+          mkdir -p _site
+          cp -R dist/. _site/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
