@@ -40,7 +40,7 @@
     "@radix-ui/react-tooltip": "^1.2.16",
     "@tailwindcss/vite": "^4.0.0",
     "@types/node": "^5.0.0",
-    "@types/react": "^18.2.0:",
+    "@types/react": "^18.2.0",
     "@types/react-dom": "^3.0.0",
     "@vitejs/plugin-react": "^9.0.0",
     "chokidar": "^4.0.3",
