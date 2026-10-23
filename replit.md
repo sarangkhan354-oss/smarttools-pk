@@ -1,46 +1,25 @@
 # SmartTools PK
 
-A responsive browser-based toolbox for image compression, image-to-PDF conversion, PDF merging, QR generation, and text statistics. User files are processed locally and are not uploaded.
+SmartTools PK is a responsive, browser-only utility website. It does not need an account, database, API, or file upload: image and PDF files are read and processed on the user's device[cite: 4].
 
-## Run & Operate
+## Tools
 
-- `pnpm --filter @workspace/smarttools-pk run dev` — run the website
-- `pnpm --filter @workspace/smarttools-pk run typecheck` — check the website's TypeScript
-- `pnpm --filter @workspace/smarttools-pk run build` — build the static frontend
+- **Image compressor** — converts an image to JPEG, lowering quality and, when needed, dimensions while preserving its aspect ratio until it reaches the selected maximum size or reports that the target could not be met[cite: 4].
+- **Image to PDF** — accepts multiple images, lets users reorder or remove them, and creates a PDF with one image per page[cite: 4].
+- **PDF merger** — combines at least two PDFs in the selected order and downloads the merged result[cite: 4].
+- **QR code generator** — creates a downloadable PNG or SVG from text or a URL[cite: 4].
+- **Text and word counter** — updates word, character, sentence, paragraph, and estimated reading-time counts as text changes[cite: 4].
 
-## Stack
+## Code map
 
-- pnpm workspace, React, TypeScript, Vite, and Tailwind CSS
-- Browser Canvas and File APIs for local image processing
-- `pdf-lib` for PDF creation and merging; `qrcode` for local QR code generation
-- No app database, login, payment, or file-upload service
+- `src/App.tsx` — responsive landing page, tool directory, search, and category filters[cite: 4].
+- `src/tools/` — one focused component per tool plus shared browser-file and text-statistics helpers[cite: 4].
+- `src/index.css` — color tokens, typography, focus states, and reduced-motion support[cite: 4].
 
-## Where things live
+PDF and QR dependencies load with their respective tool panels. Generated file downloads are created locally with browser object URLs[cite: 4].
 
-- `artifacts/smarttools-pk/src/App.tsx` — navigation, search, categories, and tool directory
-- `artifacts/smarttools-pk/src/tools/` — focused implementations for each tool and shared utilities
-- `artifacts/smarttools-pk/src/index.css` — application theme and responsive styling
+## Run and check
 
-## Architecture decisions
-
-- File conversion happens in the browser so selected files are never sent to a server.
-- PDF and QR libraries load only when their tool is opened to keep the initial page lighter.
-
-## Product
-
-- Five free utilities: image compression to a target size, image-to-PDF, PDF merge, QR generation, and text/word counts.
-- Search and category filters navigate to tool panels on the same page.
-
-## User preferences
-
-- Premium, modern, clean interface with a white background and navy/blue accents.
-- Responsive for phones and laptops; footer credit: “Built by Sarang Khan”.
-
-## Gotchas
-
-- Image compression exports JPEG; transparent pixels are flattened onto white.
-- Image/PDF processing is limited by the browser's available memory and supported image formats.
-
-## Pointers
-
-- See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details
+```sh
+pnpm --filter @workspace/smarttools-pk run dev
+pnpm --filter @workspace/smarttools-pk run typecheck
