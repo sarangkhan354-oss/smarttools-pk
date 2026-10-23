@@ -1,11 +1,11 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
 import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X } from 'lucide-react';
 
-const ImageCompressor = lazy(() => import('@/tools/ImageCompressor'));
-const ImageToPdf = lazy(() => import('@/tools/ImageToPdf'));
-const PdfMerger = lazy(() => import('@/tools/PdfMerger'));
-const QrGenerator = lazy(() => import('@/tools/QrGenerator'));
-const TextCounter = lazy(() => import('@/tools/TextCounter'));
+const ImageCompressor = lazy(() => import('tools/ImageCompressor'));
+const ImageToPdf = lazy(() => import('tools/ImageToPdf'));
+const PdfMerger = lazy(() => import('tools/PdfMerger'));
+const QrGenerator = lazy(() => import('tools/QrGenerator'));
+const TextCounter = lazy(() => import('tools/TextCounter'));
 
 type Category='All tools'|'Images'|'PDF'|'Text & utilities';
 type ToolId='compress'|'image-pdf'|'merge-pdf'|'qr'|'counter';
