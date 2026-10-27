@@ -1,5 +1,5 @@
 import { lazy, Suspense, useMemo, useState, useRef, useEffect } from 'react';
-import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send, Palette, Calculator, CaseSensitive } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send, Palette, Calculator, CaseSensitive, Zap, ShieldCheck } from 'lucide-react';
 
 const ImageCompressor = lazy(() => import('./tools/ImageCompressor'));
 const ImageToPdf = lazy(() => import('./tools/ImageToPdf'));
@@ -218,13 +218,13 @@ function ToolContent({ id }: { id: ToolId }) {
   );
 }
 
-// 🤖 Professional AI Assistant Widget
+// 🤖 Supercharged Interactive Smart AI Assistant Widget
 function AIAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { 
       sender: 'ai', 
-      text: 'Assalam-o-Alaikum! Main SmartTools PK ka Smart AI Assistant hoon. Aapko kis tool (Image Compressor, PDF Merger, QR Generator) ya feature mein madad chahiye?' 
+      text: '👋 Assalam-o-Alaikum! Main SmartTools PK ka Next-Gen AI Assistant hoon. Bataiye, aaj konsa tool use karna hai? (Image Compressor, PDF Merger, QR Code, etc.)' 
     }
   ]);
   const [input, setInput] = useState('');
@@ -251,22 +251,24 @@ function AIAssistantWidget() {
     setIsTyping(true);
 
     setTimeout(() => {
-      let aiReply = "SmartTools PK par aap images compress kar saktay hain, PDFs ko merge/split kar saktay hain, aur QR codes bana saktay hain. Yeh sab aapke browser mein locally hota hai, secure tareeqay se!";
+      let aiReply = "⚡ SmartTools PK ek lightning-fast aur 100% secure platform hai jo aapki files ko directly browser mein process karta hai. Mazeed kis tool ke baray mein janna chahte hain?";
       
       const lowerQuery = query.toLowerCase();
       if (lowerQuery.includes('image') || lowerQuery.includes('compress') || lowerQuery.includes('tasveer')) {
-        aiReply = "Image compressor use karne ke liye upar 'Images' category select karein aur Image Compressor tool open karein.";
+        aiReply = "🖼️ Image Compressor ko use karne ke liye upar 'Images' category select karein. Yeh bina quality drop kiye aapki image ka size light kar deta hai!";
       } else if (lowerQuery.includes('pdf') || lowerQuery.includes('merge') || lowerQuery.includes('split')) {
-        aiReply = "Hamare paas PDF Merger aur PDF Splitter dono maujood hain. 'PDF' filter par click karke aap asani se documents combine ya split kar saktay hain.";
+        aiReply = "📄 PDF Merger aur Splitter boht zabardast tools hain. 'PDF' tab par click karein aur apne documents ko second mein combine ya separate karein!";
       } else if (lowerQuery.includes('qr') || lowerQuery.includes('code')) {
-        aiReply = "QR Code generator ki madad se aap kisi bhi link ya text ko foran crisp QR code mein convert karke download kar saktay hain.";
-      } else if (lowerQuery.includes('contact') || lowerQuery.includes('email') || lowerQuery.includes('whatsapp')) {
-        aiReply = "Aap hum se official email (sarangkhan354@gmail.com) ya WhatsApp par rabta kar saktay hain. Contact Us page par tafseel maujood hai!";
+        aiReply = "✨ QR Code Generator se aap kisi bhi link, text ya contact ko instant crisp QR code mein badal kar download kar saktay hain.";
+      } else if (lowerQuery.includes('hello') || lowerQuery.includes('salam') || lowerQuery.includes('hi')) {
+        aiReply = "Walaikum Assalam! Sarang Khan ki banayi hui is platform par aapka khair makhdam hai. Aaj kya help chahiye?";
+      } else if (lowerQuery.includes('contact') || lowerQuery.includes('support')) {
+        aiReply = "📞 Aap humein direct Contact Us page ke zariye ya official email par message bhej saktay hain!";
       }
 
       setMessages(prev => [...prev, { sender: 'ai', text: aiReply }]);
       setIsTyping(false);
-    }, 1200);
+    }, 1000);
   };
 
   return (
@@ -274,71 +276,76 @@ function AIAssistantWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-2xl transition hover:scale-110 hover:shadow-cyan-500/25 focus:outline-none focus:ring-4 focus:ring-blue-500/30"
-          title="Chat with AI Assistant"
+          className="group relative flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 text-white shadow-[0_0_30px_rgba(6,182,212,0.4)] transition-all duration-300 hover:scale-110 hover:shadow-[0_0_40px_rgba(6,182,212,0.7)] focus:outline-none"
+          title="Chat with Smart AI"
         >
-          <Bot size={26} className="animate-pulse" />
+          <span className="absolute -top-1 -right-1 flex h-4 w-4">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
+            <span className="relative inline-flex h-4 w-4 rounded-full bg-cyan-500 text-[9px] font-bold items-center justify-center text-white">AI</span>
+          </span>
+          <Bot size={28} className="transition-transform group-hover:rotate-12" />
         </button>
       )}
 
       {isOpen && (
-        <div className="flex h-[480px] w-[350px] flex-col overflow-hidden rounded-2xl border border-slate-700 bg-[#111a2b] shadow-2xl sm:w-[390px]">
+        <div className="flex h-[520px] w-[360px] flex-col overflow-hidden rounded-3xl border border-cyan-500/30 bg-[#0d1526]/95 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.7)] sm:w-[400px]">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-slate-700 bg-[#0d1526] px-4 py-3.5">
-            <div className="flex items-center gap-2.5">
-              <span className="relative flex h-3 w-3">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
-                <span className="relative inline-flex h-3 w-3 rounded-full bg-cyan-500" />
-              </span>
+          <div className="flex items-center justify-between border-b border-slate-800 bg-gradient-to-r from-[#111a2b] to-[#152238] px-5 py-4">
+            <div className="flex items-center gap-3">
+              <div className="relative flex h-10 w-10 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-400 text-white shadow-md">
+                <Sparkles size={20} className="animate-pulse" />
+              </div>
               <div>
-                <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
-                  SmartTools AI <Sparkles size={13} className="text-cyan-400" />
+                <h3 className="text-sm font-extrabold text-white flex items-center gap-1.5">
+                  SmartTools AI <span className="rounded bg-cyan-500/20 px-1.5 py-0.5 text-[9px] font-bold text-cyan-300 uppercase tracking-wider">Pro</span>
                 </h3>
-                <p className="text-[10px] text-slate-400">Powered for instant guidance</p>
+                <p className="text-[11px] text-cyan-400/80 flex items-center gap-1 font-medium">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" /> Online & Ready
+                </p>
               </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="rounded-lg p-1 text-slate-400 hover:bg-white/5 hover:text-white transition"
+              className="rounded-xl p-1.5 text-slate-400 hover:bg-white/10 hover:text-white transition"
             >
-              <X size={18} />
+              <X size={20} />
             </button>
           </div>
 
           {/* Quick Suggestions Chips */}
-          <div className="flex gap-1.5 overflow-x-auto border-b border-slate-800 bg-[#0a101f] px-3 py-2 scrollbar-none">
+          <div className="flex gap-2 overflow-x-auto border-b border-slate-800/80 bg-[#080d19] px-4 py-2.5 scrollbar-none">
             <button 
               onClick={() => handleSend("How to compress image?")}
-              className="shrink-0 rounded-full border border-slate-700 bg-[#141f33] px-2.5 py-1 text-[11px] text-cyan-300 hover:border-cyan-500 transition"
+              className="shrink-0 rounded-full border border-slate-700/80 bg-[#131d31] px-3 py-1 text-xs font-medium text-cyan-300 hover:border-cyan-400 hover:bg-cyan-500/10 transition"
             >
               🖼️ Compress Image
             </button>
             <button 
               onClick={() => handleSend("How to merge PDFs?")}
-              className="shrink-0 rounded-full border border-slate-700 bg-[#141f33] px-2.5 py-1 text-[11px] text-cyan-300 hover:border-cyan-500 transition"
+              className="shrink-0 rounded-full border border-slate-700/80 bg-[#131d31] px-3 py-1 text-xs font-medium text-cyan-300 hover:border-cyan-400 hover:bg-cyan-500/10 transition"
             >
               📄 Merge PDFs
             </button>
             <button 
-              onClick={() => handleSend("Contact details")}
-              className="shrink-0 rounded-full border border-slate-700 bg-[#141f33] px-2.5 py-1 text-[11px] text-cyan-300 hover:border-cyan-500 transition"
+              onClick={() => handleSend("QR code maker")}
+              className="shrink-0 rounded-full border border-slate-700/80 bg-[#131d31] px-3 py-1 text-xs font-medium text-cyan-300 hover:border-cyan-400 hover:bg-cyan-500/10 transition"
             >
-              📞 Contact Us
+              ✨ QR Generator
             </button>
           </div>
 
           {/* Messages Body */}
-          <div className="flex-1 space-y-3.5 overflow-y-auto p-4 text-sm">
+          <div className="flex-1 space-y-4 overflow-y-auto p-4 text-sm">
             {messages.map((msg, index) => (
               <div
                 key={index}
                 className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 leading-relaxed text-xs sm:text-sm ${
+                  className={`max-w-[85%] rounded-2xl px-4 py-3 leading-relaxed text-xs sm:text-sm shadow-sm ${
                     msg.sender === 'user'
-                      ? 'bg-blue-600 text-white rounded-br-none'
-                      : 'border border-slate-700/80 bg-[#172338] text-slate-200 rounded-bl-none shadow-sm'
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-br-none shadow-blue-600/20'
+                      : 'border border-slate-700/60 bg-[#152238] text-slate-200 rounded-bl-none'
                   }`}
                 >
                   {msg.text}
@@ -348,7 +355,7 @@ function AIAssistantWidget() {
 
             {isTyping && (
               <div className="flex justify-start">
-                <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-none border border-slate-700/80 bg-[#172338] px-4 py-3 text-slate-400">
+                <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-none border border-slate-700/60 bg-[#152238] px-4 py-3 text-slate-400">
                   <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
                   <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '150ms' }} />
                   <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -359,21 +366,21 @@ function AIAssistantWidget() {
           </div>
 
           {/* Input Footer */}
-          <div className="border-t border-slate-700 bg-[#0d1526] p-3">
+          <div className="border-t border-slate-800 bg-[#0b1220] p-3.5">
             <div className="flex items-center gap-2">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Yahan sawal poochein..."
-                className="h-10 flex-1 rounded-xl border border-slate-700 bg-[#111a2b] px-3 text-xs sm:text-sm text-slate-200 outline-none placeholder:text-slate-500 focus:border-cyan-400 transition"
+                placeholder="Ask me anything..."
+                className="h-11 flex-1 rounded-2xl border border-slate-700 bg-[#111a2b] px-4 text-xs sm:text-sm text-slate-200 outline-none placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20 transition"
               />
               <button
                 onClick={() => handleSend()}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-500 shadow-md"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white transition hover:scale-105 shadow-md shadow-cyan-500/20"
               >
-                <Send size={16} />
+                <Send size={18} />
               </button>
             </div>
           </div>
@@ -409,31 +416,34 @@ function App() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-[#080d19] text-slate-100 relative">
-      <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#080d19]/95 backdrop-blur-md">
-        <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-4 px-5 lg:px-8">
+    <div className="min-h-[100dvh] bg-[#080d19] text-slate-100 relative selection:bg-cyan-500 selection:text-slate-950">
+      <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#080d19]/90 backdrop-blur-md">
+        <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-5 lg:px-8">
+          {/* Attractive New Logo Design */}
           <a
             href="#"
             aria-label="SmartTools PK home"
-            className="flex items-center gap-2.5"
+            className="group flex items-center gap-3 transition-transform hover:scale-[1.02]"
             onClick={() => {
               setActive('compress');
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#153c70] text-white">
-              <span className="font-display text-sm font-extrabold tracking-tight">
-                ST
+            <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-cyan-400 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:shadow-cyan-500/40 transition">
+              <div className="flex h-full w-full items-center justify-center rounded-[14px] bg-[#0d1526]">
+                <span className="font-display text-base font-black tracking-tighter bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                  ST
+                </span>
+              </div>
+            </div>
+            <div className="leading-tight">
+              <span className="font-display block text-[17px] font-extrabold tracking-[-.03em] text-white">
+                SmartTools <span className="text-cyan-400">PK</span>
               </span>
-            </span>
-            <span className="leading-tight">
-              <span className="font-display block text-[16px] font-extrabold tracking-[-.04em] text-white">
-                SmartTools <span className="text-cyan-300">PK</span>
+              <span className="flex items-center gap-1 text-[10px] font-semibold tracking-[.15em] text-slate-400 uppercase">
+                <Zap size={10} className="text-amber-400 fill-amber-400" /> Pro Utility Suite
               </span>
-              <span className="hidden text-[10px] font-medium tracking-[.11em] text-slate-500 sm:block">
-                EVERYDAY TOOLS. MADE SIMPLE.
-              </span>
-            </span>
+            </div>
           </a>
 
           <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-300 md:flex">
@@ -450,38 +460,38 @@ function App() {
 
           <a
             href="#tools"
-            className="hidden items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500 sm:inline-flex"
+            className="hidden items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-5 py-2.5 text-sm font-bold text-white shadow-md shadow-blue-500/20 transition hover:shadow-cyan-500/40 hover:scale-105 sm:inline-flex"
           >
-            Find a tool <ArrowRight size={15} />
+            Find a tool <ArrowRight size={16} />
           </a>
 
           <button
             aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
             onClick={() => setMenuOpen((v) => !v)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 text-slate-200 md:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-700 bg-[#111a2b] text-slate-200 md:hidden"
           >
-            {menuOpen ? <X size={19} /> : <Menu size={19} />}
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
 
         {menuOpen && (
-          <nav className="border-t border-slate-800 bg-[#0d1526] px-5 py-3 md:hidden space-y-2">
+          <nav className="border-t border-slate-800 bg-[#0d1526]/95 backdrop-blur-xl px-5 py-4 md:hidden space-y-2.5 shadow-2xl">
             <a
               onClick={() => setMenuOpen(false)}
               href="#tools"
-              className="block rounded-lg px-2 py-2 text-sm font-semibold text-slate-300"
+              className="block rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-200 hover:bg-white/5 transition"
             >
               Explore tools
             </a>
             <button
               onClick={() => { setMenuOpen(false); openTool('privacy-policy'); }}
-              className="block w-full text-left rounded-lg px-2 py-2 text-sm font-semibold text-slate-300"
+              className="block w-full text-left rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-200 hover:bg-white/5 transition"
             >
               Privacy Policy
             </button>
             <button
               onClick={() => { setMenuOpen(false); openTool('contact-us'); }}
-              className="block w-full text-left rounded-lg px-2 py-2 text-sm font-semibold text-slate-300"
+              className="block w-full text-left rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-200 hover:bg-white/5 transition"
             >
               Contact Us
             </button>
@@ -490,75 +500,73 @@ function App() {
       </header>
 
       <main>
-        <section className="relative overflow-hidden border-b border-slate-800 bg-[#0d1526]">
-          <div className="pointer-events-none absolute -right-24 -top-36 h-[450px] w-[450px] rounded-full border border-blue-400/20" />
-          <div className="pointer-events-none absolute right-[-3rem] top-[-8rem] h-[350px] w-[350px] rounded-full border border-cyan-400/15" />
+        <section className="relative overflow-hidden border-b border-slate-800/80 bg-[#0d1526]">
+          <div className="pointer-events-none absolute -right-24 -top-36 h-[450px] w-[450px] rounded-full border border-blue-400/20 blur-xl" />
+          <div className="pointer-events-none absolute right-[-3rem] top-[-8rem] h-[350px] w-[350px] rounded-full border border-cyan-400/15 blur-xl" />
 
-          <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 pb-14 pt-14 md:grid-cols-[1.2fr_.8fr] md:pb-20 md:pt-20 lg:px-8 lg:pt-24">
+          <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-16 md:grid-cols-[1.2fr_.8fr] md:pb-24 md:pt-24 lg:px-8">
             <div className="reveal max-w-2xl">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-blue-200">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
-                A little less digital busywork
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-cyan-300 shadow-sm">
+                <span className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
+                Next-Gen Browser Utilities
               </div>
 
-              <h1 className="font-display max-w-2xl text-[clamp(2.8rem,7vw,5.35rem)] font-extrabold leading-[.99] tracking-[-.065em] text-white">
+              <h1 className="font-display max-w-2xl text-[clamp(2.8rem,7vw,5.35rem)] font-extrabold leading-[.98] tracking-[-.065em] text-white">
                 The tools you need.
                 <br />
-                <span className="text-cyan-300">Nothing in the way.</span>
+                <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">Nothing in the way.</span>
               </h1>
 
               <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 md:text-lg">
                 Compress an image, sort out a PDF, or get your words in shape.
-                Quick, practical tools that work right here on your device.
+                Quick, practical tools that work right here on your device securely.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-3.5 sm:flex-row">
                 <a
                   href="#tools"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-500"
+                  className="inline-flex min-h-13 items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-blue-600 to-cyan-500 px-6 text-sm font-bold text-white shadow-lg shadow-cyan-500/25 transition hover:scale-105"
                 >
-                  Explore all tools <ArrowDownRight size={17} />
+                  Explore all tools <ArrowDownRight size={18} />
                 </a>
                 <button
                   onClick={() => openTool('privacy-policy')}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-slate-200 transition hover:bg-white/5"
+                  className="inline-flex min-h-13 items-center justify-center gap-2.5 rounded-2xl border border-slate-700 bg-[#111a2b] px-5 text-sm font-semibold text-slate-200 transition hover:bg-white/5 hover:border-slate-600"
                 >
-                  <LockKeyhole size={16} className="text-cyan-300" />
+                  <ShieldCheck size={18} className="text-cyan-400" />
                   Private by design
                 </button>
               </div>
 
-              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-slate-400">
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-medium text-slate-400">
                 <span className="inline-flex items-center gap-1.5">
-                  <Check size={14} className="text-cyan-300" /> No account
-                  needed
+                  <Check size={15} className="text-cyan-400" /> No account needed
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Check size={14} className="text-cyan-300" /> Free to use
+                  <Check size={15} className="text-cyan-400" /> 100% Free to use
                 </span>
                 <span className="inline-flex items-center gap-1.5">
-                  <Check size={14} className="text-cyan-300" /> Files stay on
-                  your device
+                  <Check size={15} className="text-cyan-400" /> Local browser processing
                 </span>
               </div>
             </div>
 
             <div
-              className="reveal relative mx-auto w-full max-w-[410px] md:justify-self-end"
+              className="reveal relative mx-auto w-full max-w-[420px] md:justify-self-end"
               style={{ animationDelay: '100ms' }}
             >
-              <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-500/25 via-transparent to-cyan-400/15 blur-2xl" />
-              <div className="relative rounded-[1.6rem] border border-slate-700 bg-[#111a2b] p-5 shadow-[0_24px_70px_-34px_rgba(20,55,95,.25)] sm:p-6">
-                <div className="flex items-center justify-between border-b border-slate-700 pb-4">
+              <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-500/20 via-transparent to-cyan-400/20 blur-3xl" />
+              <div className="relative rounded-[1.8rem] border border-slate-700/80 bg-[#111a2b] p-6 shadow-2xl">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                   <span className="text-xs font-bold uppercase tracking-[.16em] text-slate-400">
                     Your everyday toolkit
                   </span>
-                  <span className="rounded-full bg-cyan-400/10 px-2.5 py-1 text-[10px] font-bold text-cyan-300">
-                    ON DEVICE
+                  <span className="rounded-full bg-cyan-400/10 px-3 py-1 text-[10px] font-extrabold text-cyan-300">
+                    INSTANT ACTIVE
                   </span>
                 </div>
 
-                <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="mt-5 grid grid-cols-2 gap-3.5">
                   {[
                     ['Image compressor', 'Image', Image],
                     ['PDF merger', 'PDF', FileText],
@@ -581,10 +589,10 @@ function App() {
                             )[i],
                           )
                         }
-                        className="group rounded-2xl border border-slate-700 bg-[#172338] p-4 text-left transition hover:-translate-y-1 hover:border-blue-400/60 hover:shadow-[0_12px_30px_-12px_rgba(59,130,246,.35)]"
+                        className="group rounded-2xl border border-slate-700/80 bg-[#162238] p-4 text-left transition hover:-translate-y-1 hover:border-cyan-400/60 hover:shadow-lg hover:shadow-cyan-500/10"
                       >
                         <span
-                          className={`mb-5 flex h-10 w-10 items-center justify-center rounded-xl ${
+                          className={`mb-4 flex h-10 w-10 items-center justify-center rounded-xl ${
                             i === 0
                               ? 'bg-blue-500/15 text-blue-300'
                               : i === 1
@@ -594,7 +602,7 @@ function App() {
                                   : 'bg-violet-400/15 text-violet-300'
                           }`}
                         >
-                          <IconComponent size={19} />
+                          <IconComponent size={20} />
                         </span>
                         <span className="block text-sm font-bold text-slate-100">
                           {String(title)}
@@ -611,13 +619,13 @@ function App() {
                   })}
                 </div>
 
-                <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#0b1220] px-3.5 py-3">
-                  <LockKeyhole size={17} className="shrink-0 text-cyan-400" />
+                <div className="mt-4 flex items-center gap-3 rounded-2xl bg-[#080d19] px-4 py-3">
+                  <LockKeyhole size={18} className="shrink-0 text-cyan-400" />
                   <p className="text-xs leading-5 text-slate-300">
                     <strong className="font-semibold text-slate-100">
-                      Your files stay yours.
+                      Files stay secure.
                     </strong>{' '}
-                    Work happens in this browser, on your device.
+                    Everything stays right on your device.
                   </p>
                 </div>
               </div>
@@ -627,11 +635,11 @@ function App() {
 
         <section
           id="tools"
-          className="mx-auto max-w-7xl scroll-mt-24 px-5 py-14 md:py-20 lg:px-8"
+          className="mx-auto max-w-7xl scroll-mt-24 px-5 py-16 md:py-24 lg:px-8"
         >
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-300">
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-400">
                 The toolbox
               </p>
               <h2 className="font-display mt-3 text-3xl font-extrabold tracking-[-.045em] text-white md:text-[2.65rem]">
@@ -647,7 +655,7 @@ function App() {
               <span className="sr-only">Search tools</span>
               <Search
                 size={18}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+                className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
               />
               <input
                 data-testid="input-search-tools"
@@ -655,13 +663,13 @@ function App() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search tools…"
-                className="h-12 w-full rounded-xl border border-slate-700 bg-[#111a2b] pl-10 pr-4 text-sm text-slate-200 outline-none transition placeholder:text-slate-500 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/20"
+                className="h-12 w-full rounded-2xl border border-slate-700 bg-[#111a2b] pl-11 pr-4 text-sm text-slate-200 outline-none transition placeholder:text-slate-500 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/20"
               />
             </label>
           </div>
 
           <div
-            className="mt-7 flex flex-wrap gap-2"
+            className="mt-8 flex flex-wrap gap-2.5"
             role="group"
             aria-label="Filter tools by category"
           >
@@ -671,9 +679,9 @@ function App() {
                 data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-').replace('&-', '')}`}
                 aria-pressed={category === item}
                 onClick={() => setCategory(item)}
-                className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition ${
+                className={`min-h-11 rounded-2xl border px-5 text-sm font-semibold transition ${
                   category === item
-                    ? 'border-blue-500 bg-blue-600 text-white'
+                    ? 'border-cyan-500 bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-md shadow-cyan-500/20'
                     : 'border-slate-700 bg-[#111a2b] text-slate-300 hover:border-slate-600 hover:text-cyan-300'
                 }`}
               >
@@ -683,7 +691,7 @@ function App() {
           </div>
 
           {filtered.length > 0 ? (
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((tool, index) => {
                 const Icon = tool.icon;
                 return (
@@ -691,10 +699,10 @@ function App() {
                     key={tool.id}
                     data-testid={`card-tool-${tool.id}`}
                     onClick={() => openTool(tool.id)}
-                    className={`group reveal flex min-h-[190px] flex-col rounded-2xl border bg-[#111a2b] p-5 text-left transition hover:-translate-y-1 hover:border-blue-400/60 hover:shadow-[0_18px_40px_-18px_rgba(59,130,246,.35)] ${
+                    className={`group reveal flex min-h-[200px] flex-col rounded-3xl border bg-[#111a2b] p-6 text-left transition hover:-translate-y-1.5 hover:border-cyan-400/60 hover:shadow-xl hover:shadow-cyan-500/10 ${
                       active === tool.id
-                        ? 'border-blue-400/50'
-                        : 'border-slate-700'
+                        ? 'border-cyan-400/60 shadow-lg shadow-cyan-500/10'
+                        : 'border-slate-700/80'
                     }`}
                     style={{
                       animationDelay: `${Math.min(index * 55, 220)}ms`,
@@ -702,7 +710,7 @@ function App() {
                   >
                     <div className="flex w-full items-start justify-between">
                       <span
-                        className={`flex h-11 w-11 items-center justify-center rounded-[14px] ${
+                        className={`flex h-12 w-12 items-center justify-center rounded-2xl ${
                           tool.accent === 'sky'
                             ? 'bg-blue-500/15 text-blue-300'
                             : tool.accent === 'teal'
@@ -714,9 +722,9 @@ function App() {
                                   : 'bg-rose-500/15 text-rose-300'
                         }`}
                       >
-                        <Icon size={21} />
+                        <Icon size={22} />
                       </span>
-                      <span className="rounded-full bg-slate-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.1em] text-slate-400">
+                      <span className="rounded-full bg-slate-800/80 px-3 py-1 text-[10px] font-bold uppercase tracking-[.1em] text-slate-400">
                         {tool.category}
                       </span>
                     </div>
@@ -726,9 +734,9 @@ function App() {
                     <span className="mt-1.5 text-sm leading-5 text-slate-400">
                       {tool.description}
                     </span>
-                    <span className="mt-auto flex w-full items-center justify-between pt-4 text-xs font-semibold text-slate-400">
+                    <span className="mt-auto flex w-full items-center justify-between pt-5 text-xs font-semibold text-slate-400">
                       <span>{tool.time}</span>
-                      <span className="inline-flex items-center gap-1 text-cyan-300 transition group-hover:gap-2">
+                      <span className="inline-flex items-center gap-1.5 text-cyan-300 transition group-hover:gap-2">
                         Open tool <ArrowRight size={14} />
                       </span>
                     </span>
@@ -737,8 +745,8 @@ function App() {
               })}
             </div>
           ) : (
-            <div className="mt-6 rounded-2xl border border-dashed border-slate-700 bg-[#111a2b] px-6 py-12 text-center">
-              <Search className="mx-auto text-slate-400" size={25} />
+            <div className="mt-8 rounded-3xl border border-dashed border-slate-700 bg-[#111a2b] px-6 py-16 text-center">
+              <Search className="mx-auto text-slate-400" size={28} />
               <p className="mt-3 font-semibold text-slate-100">No tools found</p>
               <p className="mt-1 text-sm text-slate-400">
                 Try another search or category.
@@ -748,7 +756,7 @@ function App() {
                   setQuery('');
                   setCategory('All tools');
                 }}
-                className="mt-4 rounded-lg px-3 py-2 text-sm font-semibold text-cyan-300 hover:bg-white/5"
+                className="mt-4 rounded-xl px-4 py-2 text-sm font-semibold text-cyan-300 hover:bg-white/5 transition"
               >
                 Clear filters
               </button>
@@ -758,11 +766,11 @@ function App() {
 
         <section
           id="workspace"
-          className="scroll-mt-24 border-y border-slate-800 bg-[#0d1526]"
+          className="scroll-mt-24 border-y border-slate-800/80 bg-[#0d1526]"
         >
-          <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 md:grid-cols-[.72fr_1.28fr] md:gap-12 md:py-16 lg:px-8">
+          <div className="mx-auto grid max-w-7xl gap-8 px-5 py-14 md:grid-cols-[.72fr_1.28fr] md:gap-12 md:py-20 lg:px-8">
             <div className="md:pt-2">
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-300">
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-400">
                 {tools[active].eyebrow}
               </p>
               <h2 className="font-display mt-3 text-3xl font-extrabold tracking-[-.05em] text-white">
@@ -771,12 +779,12 @@ function App() {
               <p className="mt-3 max-w-sm text-sm leading-6 text-slate-300">
                 {tools[active].description}
               </p>
-              <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-200">
-                <LockKeyhole size={14} /> Processed locally in your browser
+              <div className="mt-6 inline-flex items-center gap-2 rounded-xl bg-cyan-400/10 px-3.5 py-2.5 text-xs font-semibold text-cyan-200 border border-cyan-500/20">
+                <LockKeyhole size={15} /> Processed locally in your browser
               </div>
             </div>
 
-            <div className="min-w-0 rounded-2xl border border-slate-700 bg-[#111a2b] p-4 shadow-[0_12px_38px_-28px_rgba(22,48,78,.2)] sm:p-6">
+            <div className="min-w-0 rounded-3xl border border-slate-700/80 bg-[#111a2b] p-5 shadow-2xl sm:p-8">
               <ToolContent key={active} id={active} />
             </div>
           </div>
@@ -784,14 +792,14 @@ function App() {
 
         <section
           id="privacy"
-          className="mx-auto max-w-7xl scroll-mt-20 px-5 py-14 md:py-20 lg:px-8"
+          className="mx-auto max-w-7xl scroll-mt-20 px-5 py-16 md:py-24 lg:px-8"
         >
-          <div className="grid gap-8 rounded-[1.6rem] bg-[#142f54] px-6 py-8 text-white sm:px-9 md:grid-cols-[.9fr_1.1fr] md:items-center md:px-12 md:py-12">
+          <div className="grid gap-8 rounded-[2rem] bg-gradient-to-r from-blue-900/60 via-[#142f54] to-cyan-900/50 border border-cyan-500/20 px-6 py-10 text-white sm:px-9 md:grid-cols-[.9fr_1.1fr] md:items-center md:px-12 md:py-14 shadow-2xl">
             <div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-cyan-300">
-                <LockKeyhole size={20} />
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
+                <LockKeyhole size={24} />
               </div>
-              <h2 className="font-display mt-5 text-2xl font-extrabold tracking-[-.04em] md:text-3xl">
+              <h2 className="font-display mt-6 text-2xl font-extrabold tracking-[-.04em] md:text-4xl">
                 Private by default.
                 <br />
                 Not by fine print.
@@ -804,16 +812,16 @@ function App() {
                 uploaded to a server, stored, or shared. When you leave the
                 page, your work stays with you.
               </p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
-                  <Check size={17} className="text-cyan-300" />
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                <div className="rounded-2xl border border-white/10 bg-white/[.04] p-5 backdrop-blur-sm">
+                  <Check size={18} className="text-cyan-400" />
                   <p className="mt-2 text-sm font-semibold">No file uploads</p>
                   <p className="mt-1 text-xs leading-5 text-blue-100/75">
                     Images and PDFs stay on your device.
                   </p>
                 </div>
-                <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
-                  <Check size={17} className="text-cyan-300" />
+                <div className="rounded-2xl border border-white/10 bg-white/[.04] p-5 backdrop-blur-sm">
+                  <Check size={18} className="text-cyan-400" />
                   <p className="mt-2 text-sm font-semibold">
                     No account required
                   </p>
@@ -828,12 +836,12 @@ function App() {
       </main>
 
       <footer className="border-t border-slate-800 bg-[#080d19]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-          <div className="flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#153c70] text-[10px] font-extrabold text-white">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-8 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+          <div className="flex items-center gap-3.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-400 text-white font-black text-xs">
               ST
-            </span>
-            <span className="font-semibold text-slate-100">SmartTools PK</span>
+            </div>
+            <span className="font-bold text-slate-100">SmartTools PK</span>
             <span className="text-slate-700">|</span>
             <button onClick={() => openTool('privacy-policy')} className="hover:text-cyan-300 transition">
               Privacy Policy
@@ -846,13 +854,13 @@ function App() {
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <p>
-              Built by <span className="font-semibold text-slate-200">Sarang Khan</span>
+              Built with ❤️ by <span className="font-semibold text-slate-300">Sarang Khan</span>
             </p>
           </div>
         </div>
       </footer>
 
-      {/* Embedded Professional AI Assistant */}
+      {/* Embedded Next-Gen AI Assistant Widget */}
       <AIAssistantWidget />
     </div>
   );
