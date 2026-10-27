@@ -25,7 +25,7 @@ export default function TextCounter() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Start typing or pasting text here..."
-          className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+          className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
         />
       </div>
 
