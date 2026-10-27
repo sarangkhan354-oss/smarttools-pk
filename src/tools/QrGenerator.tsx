@@ -38,7 +38,7 @@ export default function QrGenerator() {
           <a
             href={qrUrl}
             download="qrcode.png"
-            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2.5 text-sm font-bold text-white hover:bg-blue-900"
+            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2.5 text-sm font-bold text-black hover:bg-blue-900"
           >
             <Download size={16} /> Download QR Code
           </a>
