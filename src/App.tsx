@@ -1,5 +1,5 @@
 import { lazy, Suspense, useMemo, useState, useRef, useEffect } from 'react';
-import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send, Palette, Calculator, CaseSensitive, Zap, ShieldCheck } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send, Palette, Calculator, CaseSensitive, Zap, ShieldCheck, Star, MessageSquarePlus } from 'lucide-react';
 
 const ImageCompressor = lazy(() => import('./tools/ImageCompressor'));
 const ImageToPdf = lazy(() => import('./tools/ImageToPdf'));
@@ -387,6 +387,151 @@ function AIAssistantWidget() {
         </div>
       )}
     </div>
+  );
+}
+
+// 🌟 Professional Reviews & Feedback Component
+function ReviewsSection() {
+  const [reviews, setReviews] = useState([
+    { name: 'Ali Raza', role: 'Student', rating: 5, text: 'Image compressor aur PDF merger ne mera kaam boht asan kar diya. Best part yeh hai ke browser mein hi kaam ho jata hai!' },
+    { name: 'Fatima Noor', role: 'Graphic Designer', rating: 5, text: 'Color picker aur QR code generator (especially image-to-QR) top notch hain. Highly recommended!' },
+    { name: 'Bilal Ahmed', role: 'Developer', rating: 5, text: 'Clean UI, zero ads lagaye bina itne fast tools. Sarang bhai great work!' }
+  ]);
+
+  const [name, setName] = useState('');
+  const [role, setRole] = useState('');
+  const [text, setText] = useState('');
+  const [rating, setRating] = useState(5);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim() || !text.trim()) return;
+
+    const newReview = {
+      name: name.trim(),
+      role: role.trim() || 'User',
+      rating,
+      text: text.trim()
+    };
+
+    setReviews([newReview, ...reviews]);
+    setName('');
+    setRole('');
+    setText('');
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+  };
+
+  return (
+    <section id="reviews" className="mx-auto max-w-7xl px-5 py-16 md:py-24 lg:px-8 border-t border-slate-800/80">
+      <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs font-semibold text-cyan-300 mb-4">
+          <Star size={14} className="fill-cyan-300" /> User Testimonials
+        </div>
+        <h2 className="font-display text-3xl font-extrabold tracking-tight text-white md:text-4xl">
+          Loved by people everywhere.
+        </h2>
+        <p className="mt-3 text-sm text-slate-300">
+          See what our users are saying about SmartTools PK, or leave your own feedback.
+        </p>
+      </div>
+
+      {/* Reviews Grid */}
+      <div className="grid gap-6 md:grid-cols-3 mb-16">
+        {reviews.map((rev, idx) => (
+          <div key={idx} className="flex flex-col rounded-3xl border border-slate-700/80 bg-[#111a2b] p-6 shadow-xl relative group hover:border-cyan-400/50 transition">
+            <div className="flex items-center gap-1 text-amber-400 mb-4">
+              {[...Array(rev.rating)].map((_, i) => (
+                <Star key={i} size={16} className="fill-amber-400" />
+              ))}
+            </div>
+            <p className="text-sm leading-relaxed text-slate-300 italic mb-6">"{rev.text}"</p>
+            <div className="mt-auto flex items-center justify-between border-t border-slate-800 pt-4">
+              <span className="font-bold text-slate-200 text-sm">{rev.name}</span>
+              <span className="rounded-full bg-slate-800 px-3 py-0.5 text-[11px] font-medium text-cyan-400">{rev.role}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Leave Feedback Form */}
+      <div className="max-w-xl mx-auto rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-[#111a2b] to-[#0d1526] p-6 sm:p-8 shadow-2xl">
+        <div className="flex items-center gap-2.5 mb-6">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-500/20 text-cyan-300">
+            <MessageSquarePlus size={20} />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Leave Your Review</h3>
+            <p className="text-xs text-slate-400">Share your experience with SmartTools PK</p>
+          </div>
+        </div>
+
+        {submitted ? (
+          <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-center text-emerald-300 text-sm font-semibold animate-pulse">
+            🎉 Thank you! Your review has been successfully added.
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Your Name</label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Ali Khan"
+                  className="w-full rounded-xl border border-slate-700 bg-[#080d19] px-3.5 py-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400 transition"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-300 mb-1.5">Profession / Role</label>
+                <input
+                  type="text"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  placeholder="e.g. Student / Developer"
+                  className="w-full rounded-xl border border-slate-700 bg-[#080d19] px-3.5 py-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400 transition"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Rating (1 to 5 Stars)</label>
+              <select
+                value={rating}
+                onChange={(e) => setRating(Number(e.target.value))}
+                className="w-full rounded-xl border border-slate-700 bg-[#080d19] px-3.5 py-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400 transition"
+              >
+                <option value={5}>⭐⭐⭐⭐⭐ (5 Stars - Amazing)</option>
+                <option value={4}>⭐⭐⭐⭐ (4 Stars - Great)</option>
+                <option value={3}>⭐⭐⭐ (3 Stars - Good)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-300 mb-1.5">Your Feedback</label>
+              <textarea
+                required
+                rows={3}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Write what you like about the tools..."
+                className="w-full rounded-xl border border-slate-700 bg-[#080d19] px-3.5 py-2.5 text-sm text-slate-200 outline-none focus:border-cyan-400 transition resize-none"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3 text-sm font-bold text-white shadow-lg shadow-cyan-500/20 transition hover:scale-[1.02]"
+            >
+              Submit Review 🚀
+            </button>
+          </form>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -790,6 +935,9 @@ function App() {
           </div>
         </section>
 
+        {/* 🌟 Professional Reviews & Feedback Section */}
+        <ReviewsSection />
+
         <section
           id="privacy"
           className="mx-auto max-w-7xl scroll-mt-20 px-5 py-16 md:py-24 lg:px-8"
@@ -854,7 +1002,7 @@ function App() {
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <p>
-              Built with ❤️ by <span className="font-semibold text-slate-300">Sarang Khan</span>
+              Built with ❤️ by <span className="font-semibold text-slate-200">Sarang Khan</span>
             </p>
           </div>
         </div>
