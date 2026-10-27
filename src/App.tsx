@@ -1,5 +1,5 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send, Palette, Calculator, CaseSensitive } from 'lucide-react';
 
 const ImageCompressor = lazy(() => import('./tools/ImageCompressor'));
 const ImageToPdf = lazy(() => import('./tools/ImageToPdf'));
@@ -7,9 +7,12 @@ const PdfMerger = lazy(() => import('./tools/PdfMerger'));
 const PdfSplitter = lazy(() => import('./tools/PdfSplitter'));
 const QrGenerator = lazy(() => import('./tools/QrGenerator'));
 const TextCounter = lazy(() => import('./tools/TextCounter'));
+const CaseConverter = lazy(() => import('./tools/CaseConverter'));
+const PercentageCalculator = lazy(() => import('./tools/PercentageCalculator'));
+const ColorPicker = lazy(() => import('./tools/ColorPicker'));
 
 type Category = 'All tools' | 'Images' | 'PDF' | 'Text & utilities';
-type ToolId = 'compress' | 'image-pdf' | 'merge-pdf' | 'pdf-split' | 'qr' | 'counter';
+type ToolId = 'compress' | 'image-pdf' | 'merge-pdf' | 'pdf-split' | 'qr' | 'counter' | 'case-converter' | 'percentage' | 'color-picker';
 
 const directory: {
   id: ToolId;
@@ -74,6 +77,33 @@ const directory: {
     icon: Type,
     accent: 'coral',
   },
+  {
+    id: 'case-converter',
+    title: 'Case converter',
+    description: 'Convert text to UPPERCASE, lowercase, Title Case, or Sentence case.',
+    category: 'Text & utilities',
+    time: 'Instant',
+    icon: CaseSensitive,
+    accent: 'sky',
+  },
+  {
+    id: 'percentage',
+    title: 'Percentage & Discount Calculator',
+    description: 'Quickly calculate percentages and discount prices.',
+    category: 'Text & utilities',
+    time: 'Instant',
+    icon: Calculator,
+    accent: 'amber',
+  },
+  {
+    id: 'color-picker',
+    title: 'Color picker & HEX/RGB',
+    description: 'Pick colors and copy HEX and RGB color codes easily.',
+    category: 'Text & utilities',
+    time: 'Instant',
+    icon: Palette,
+    accent: 'teal',
+  },
 ];
 
 const tools: Record<
@@ -113,6 +143,21 @@ const tools: Record<
     eyebrow: 'WRITING TOOL',
     description: 'A clear snapshot of your writing, updated as you work.',
   },
+  'case-converter': {
+    title: 'Case converter',
+    eyebrow: 'WRITING TOOL',
+    description: 'Change the case of any text instantly with a single click.',
+  },
+  percentage: {
+    title: 'Percentage & Discount Calculator',
+    eyebrow: 'MATH UTILITY',
+    description: 'Calculate percentages or figure out sale discount prices easily.',
+  },
+  'color-picker': {
+    title: 'Color picker & HEX/RGB',
+    eyebrow: 'DESIGN UTILITY',
+    description: 'Select colors and convert between HEX and RGB formats.',
+  },
 };
 
 const categories: Category[] = [
@@ -144,8 +189,14 @@ function ToolContent({ id }: { id: ToolId }) {
         <PdfSplitter />
       ) : id === 'qr' ? (
         <QrGenerator />
-      ) : (
+      ) : id === 'counter' ? (
         <TextCounter />
+      ) : id === 'case-converter' ? (
+        <CaseConverter />
+      ) : id === 'percentage' ? (
+        <PercentageCalculator />
+      ) : (
+        <ColorPicker />
       )}
     </Suspense>
   );
@@ -169,7 +220,7 @@ function AIAssistantWidget() {
     setTimeout(() => {
       setMessages(prev => [
         ...prev,
-        { sender: 'ai', text: 'Shukriya! SmartTools PK par Image Compressor, PDF Tools aur QR Generator pehle se maujood hain. Aap upar diye gaye tools ko asani se use kar saktay hain.' }
+        { sender: 'ai', text: 'Shukriya! SmartTools PK par Image Compressor, PDF Tools, QR Generator, Case Converter aur Color Picker pehle se maujood hain. Aap upar diye gaye tools ko asani se use kar saktay hain.' }
       ]);
     }, 1000);
   };
@@ -490,7 +541,7 @@ function App() {
                 Small tasks, sorted.
               </h2>
               <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
-                Six useful tools, no learning curve. Pick a tool and get
+                Essential tools, no learning curve. Pick a tool and get
                 straight to work.
               </p>
             </div>
@@ -678,7 +729,8 @@ function App() {
           </div>
         </section>
       </main>
-<footer className="border-t border-slate-800 bg-[#080d19]">
+
+      <footer className="border-t border-slate-800 bg-[#080d19]">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <div className="flex items-center gap-2.5">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#153c70] text-[10px] font-extrabold text-white">
@@ -691,9 +743,8 @@ function App() {
           
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <p>
-              Built by <span className="font-semibold text-slate-200">Sarang Khan Jumani</span>
+              Built by <span className="font-semibold text-slate-200">Sarang Khan</span>
             </p>
-            {/* Idea 2 Style Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-1.5 text-xs text-slate-300 shadow-sm">
               <span>Crafted with 💙 by</span>
               <span className="font-bold text-white">Sarang Khan</span>
@@ -701,7 +752,6 @@ function App() {
           </div>
         </div>
       </footer>
-     
 
       {/* 🤖 Embedded Floating AI Assistant Widget */}
       <AIAssistantWidget />
