@@ -678,9 +678,8 @@ function App() {
           </div>
         </section>
       </main>
-
-      <footer className="border-t border-slate-800 bg-[#080d19]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+<footer className="border-t border-slate-800 bg-[#080d19]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
           <div className="flex items-center gap-2.5">
             <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#153c70] text-[10px] font-extrabold text-white">
               ST
@@ -689,11 +688,20 @@ function App() {
             <span className="hidden text-slate-700 sm:inline">/</span>
             <span>Useful tools. Thoughtfully simple.</span>
           </div>
-          <p>
-            Built by <span className="font-semibold text-slate-200">Sarang Khan</span>
-          </p>
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <p>
+              Built by <span className="font-semibold text-slate-200">Sarang Khan Jumani</span>
+            </p>
+            {/* Idea 2 Style Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-1.5 text-xs text-slate-300 shadow-sm">
+              <span>Crafted with 💙 by</span>
+              <span className="font-bold text-white">Sarang Khan</span>
+            </div>
+          </div>
         </div>
       </footer>
+     
 
       {/* 🤖 Embedded Floating AI Assistant Widget */}
       <AIAssistantWidget />
