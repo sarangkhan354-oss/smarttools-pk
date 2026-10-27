@@ -1,4 +1,4 @@
-import { lazy, Suspense, useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState, useRef, useEffect } from 'react';
 import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send, Palette, Calculator, CaseSensitive } from 'lucide-react';
 
 const ImageCompressor = lazy(() => import('./tools/ImageCompressor'));
@@ -218,27 +218,55 @@ function ToolContent({ id }: { id: ToolId }) {
   );
 }
 
-// 🤖 AI Assistant Component Integrated Inside App
+// 🤖 Professional AI Assistant Widget
 function AIAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { sender: 'ai', text: 'Assalam-o-Alaikum! Main SmartTools PK ka AI Assistant hoon. Aapko kis tool ya feature mein madad chahiye?' }
+    { 
+      sender: 'ai', 
+      text: 'Assalam-o-Alaikum! Main SmartTools PK ka Smart AI Assistant hoon. Aapko kis tool (Image Compressor, PDF Merger, QR Generator) ya feature mein madad chahiye?' 
+    }
   ]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const handleSend = () => {
-    if (!input.trim()) return;
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [messages, isOpen]);
+
+  const handleSend = async (textToSend?: string) => {
+    const query = textToSend || input;
+    if (!query.trim()) return;
     
-    const newMessages = [...messages, { sender: 'user', text: input }];
-    setMessages(newMessages);
-    setInput('');
+    const userMessage = { sender: 'user', text: query };
+    setMessages(prev => [...prev, userMessage]);
+    if (!textToSend) setInput('');
+    setIsTyping(true);
 
     setTimeout(() => {
-      setMessages(prev => [
-        ...prev,
-        { sender: 'ai', text: 'Shukriya! SmartTools PK par Image Compressor, PDF Tools, QR Generator, Case Converter aur Color Picker pehle se maujood hain. Aap upar diye gaye tools ko asani se use kar saktay hain.' }
-      ]);
-    }, 1000);
+      let aiReply = "SmartTools PK par aap images compress kar saktay hain, PDFs ko merge/split kar saktay hain, aur QR codes bana saktay hain. Yeh sab aapke browser mein locally hota hai, secure tareeqay se!";
+      
+      const lowerQuery = query.toLowerCase();
+      if (lowerQuery.includes('image') || lowerQuery.includes('compress') || lowerQuery.includes('tasveer')) {
+        aiReply = "Image compressor use karne ke liye upar 'Images' category select karein aur Image Compressor tool open karein.";
+      } else if (lowerQuery.includes('pdf') || lowerQuery.includes('merge') || lowerQuery.includes('split')) {
+        aiReply = "Hamare paas PDF Merger aur PDF Splitter dono maujood hain. 'PDF' filter par click karke aap asani se documents combine ya split kar saktay hain.";
+      } else if (lowerQuery.includes('qr') || lowerQuery.includes('code')) {
+        aiReply = "QR Code generator ki madad se aap kisi bhi link ya text ko foran crisp QR code mein convert karke download kar saktay hain.";
+      } else if (lowerQuery.includes('contact') || lowerQuery.includes('email') || lowerQuery.includes('whatsapp')) {
+        aiReply = "Aap hum se official email (sarangkhan354@gmail.com) ya WhatsApp par rabta kar saktay hain. Contact Us page par tafseel maujood hai!";
+      }
+
+      setMessages(prev => [...prev, { sender: 'ai', text: aiReply }]);
+      setIsTyping(false);
+    }, 1200);
   };
 
   return (
@@ -246,43 +274,88 @@ function AIAssistantWidget() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="group flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-2xl transition hover:scale-110 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/30"
-          title="Open AI Assistant"
+          className="group flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-r from-blue-600 to-cyan-500 text-white shadow-2xl transition hover:scale-110 hover:shadow-cyan-500/25 focus:outline-none focus:ring-4 focus:ring-blue-500/30"
+          title="Chat with AI Assistant"
         >
-          <Bot size={24} />
+          <Bot size={26} className="animate-pulse" />
         </button>
       )}
 
       {isOpen && (
-        <div className="flex h-[450px] w-[340px] flex-col overflow-hidden rounded-2xl border border-slate-700 bg-[#111a2b] shadow-2xl sm:w-[380px]">
+        <div className="flex h-[480px] w-[350px] flex-col overflow-hidden rounded-2xl border border-slate-700 bg-[#111a2b] shadow-2xl sm:w-[390px]">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-slate-700 bg-[#0d1526] px-4 py-3">
+          <div className="flex items-center justify-between border-b border-slate-700 bg-[#0d1526] px-4 py-3.5">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-3 w-3 rounded-full bg-cyan-400 animate-pulse" />
-              <h3 className="text-sm font-bold text-white">SmartTools AI Assistant</h3>
+              <span className="relative flex h-3 w-3">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-75" />
+                <span className="relative inline-flex h-3 w-3 rounded-full bg-cyan-500" />
+              </span>
+              <div>
+                <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                  SmartTools AI <Sparkles size={13} className="text-cyan-400" />
+                </h3>
+                <p className="text-[10px] text-slate-400">Powered for instant guidance</p>
+              </div>
             </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="rounded-lg p-1 text-slate-400 hover:bg-white/5 hover:text-white"
+              className="rounded-lg p-1 text-slate-400 hover:bg-white/5 hover:text-white transition"
             >
               <X size={18} />
             </button>
           </div>
 
+          {/* Quick Suggestions Chips */}
+          <div className="flex gap-1.5 overflow-x-auto border-b border-slate-800 bg-[#0a101f] px-3 py-2 scrollbar-none">
+            <button 
+              onClick={() => handleSend("How to compress image?")}
+              className="shrink-0 rounded-full border border-slate-700 bg-[#141f33] px-2.5 py-1 text-[11px] text-cyan-300 hover:border-cyan-500 transition"
+            >
+              🖼️ Compress Image
+            </button>
+            <button 
+              onClick={() => handleSend("How to merge PDFs?")}
+              className="shrink-0 rounded-full border border-slate-700 bg-[#141f33] px-2.5 py-1 text-[11px] text-cyan-300 hover:border-cyan-500 transition"
+            >
+              📄 Merge PDFs
+            </button>
+            <button 
+              onClick={() => handleSend("Contact details")}
+              className="shrink-0 rounded-full border border-slate-700 bg-[#141f33] px-2.5 py-1 text-[11px] text-cyan-300 hover:border-cyan-500 transition"
+            >
+              📞 Contact Us
+            </button>
+          </div>
+
           {/* Messages Body */}
-          <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm">
+          <div className="flex-1 space-y-3.5 overflow-y-auto p-4 text-sm">
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`max-w-[85%] rounded-2xl px-4 py-2.5 leading-relaxed ${
-                  msg.sender === 'user'
-                    ? 'ml-auto bg-blue-600 text-white'
-                    : 'mr-auto border border-slate-700 bg-[#172338] text-slate-200'
-                }`}
+                className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
               >
-                {msg.text}
+                <div
+                  className={`max-w-[85%] rounded-2xl px-4 py-2.5 leading-relaxed text-xs sm:text-sm ${
+                    msg.sender === 'user'
+                      ? 'bg-blue-600 text-white rounded-br-none'
+                      : 'border border-slate-700/80 bg-[#172338] text-slate-200 rounded-bl-none shadow-sm'
+                  }`}
+                >
+                  {msg.text}
+                </div>
               </div>
             ))}
+
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="flex items-center gap-1.5 rounded-2xl rounded-bl-none border border-slate-700/80 bg-[#172338] px-4 py-3 text-slate-400">
+                  <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="h-2 w-2 rounded-full bg-cyan-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
           </div>
 
           {/* Input Footer */}
@@ -292,13 +365,13 @@ function AIAssistantWidget() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-                placeholder="Yahan sawal likhein..."
-                className="h-10 flex-1 rounded-xl border border-slate-700 bg-[#111a2b] px-3 text-sm text-slate-200 outline-none placeholder:text-slate-500 focus:border-blue-400"
+                onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Yahan sawal poochein..."
+                className="h-10 flex-1 rounded-xl border border-slate-700 bg-[#111a2b] px-3 text-xs sm:text-sm text-slate-200 outline-none placeholder:text-slate-500 focus:border-cyan-400 transition"
               />
               <button
-                onClick={handleSend}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-500"
+                onClick={() => handleSend()}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-500 shadow-md"
               >
                 <Send size={16} />
               </button>
@@ -543,251 +616,3 @@ function App() {
                   <p className="text-xs leading-5 text-slate-300">
                     <strong className="font-semibold text-slate-100">
                       Your files stay yours.
-                    </strong>{' '}
-                    Work happens in this browser, on your device.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="tools"
-          className="mx-auto max-w-7xl scroll-mt-24 px-5 py-14 md:py-20 lg:px-8"
-        >
-          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-300">
-                The toolbox
-              </p>
-              <h2 className="font-display mt-3 text-3xl font-extrabold tracking-[-.045em] text-white md:text-[2.65rem]">
-                Small tasks, sorted.
-              </h2>
-              <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
-                Essential tools, no learning curve. Pick a tool and get
-                straight to work.
-              </p>
-            </div>
-
-            <label className="relative block w-full md:max-w-[320px]">
-              <span className="sr-only">Search tools</span>
-              <Search
-                size={18}
-                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
-              />
-              <input
-                data-testid="input-search-tools"
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search tools…"
-                className="h-12 w-full rounded-xl border border-slate-700 bg-[#111a2b] pl-10 pr-4 text-sm text-slate-200 outline-none transition placeholder:text-slate-500 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/20"
-              />
-            </label>
-          </div>
-
-          <div
-            className="mt-7 flex flex-wrap gap-2"
-            role="group"
-            aria-label="Filter tools by category"
-          >
-            {categories.map((item) => (
-              <button
-                key={item}
-                data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-').replace('&-', '')}`}
-                aria-pressed={category === item}
-                onClick={() => setCategory(item)}
-                className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition ${
-                  category === item
-                    ? 'border-blue-500 bg-blue-600 text-white'
-                    : 'border-slate-700 bg-[#111a2b] text-slate-300 hover:border-slate-600 hover:text-cyan-300'
-                }`}
-              >
-                {item}
-              </button>
-            ))}
-          </div>
-
-          {filtered.length > 0 ? (
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {filtered.map((tool, index) => {
-                const Icon = tool.icon;
-                return (
-                  <button
-                    key={tool.id}
-                    data-testid={`card-tool-${tool.id}`}
-                    onClick={() => openTool(tool.id)}
-                    className={`group reveal flex min-h-[190px] flex-col rounded-2xl border bg-[#111a2b] p-5 text-left transition hover:-translate-y-1 hover:border-blue-400/60 hover:shadow-[0_18px_40px_-18px_rgba(59,130,246,.35)] ${
-                      active === tool.id
-                        ? 'border-blue-400/50'
-                        : 'border-slate-700'
-                    }`}
-                    style={{
-                      animationDelay: `${Math.min(index * 55, 220)}ms`,
-                    }}
-                  >
-                    <div className="flex w-full items-start justify-between">
-                      <span
-                        className={`flex h-11 w-11 items-center justify-center rounded-[14px] ${
-                          tool.accent === 'sky'
-                            ? 'bg-blue-500/15 text-blue-300'
-                            : tool.accent === 'teal'
-                              ? 'bg-cyan-400/15 text-cyan-300'
-                              : tool.accent === 'amber'
-                                ? 'bg-amber-400/15 text-amber-300'
-                                : tool.accent === 'violet'
-                                  ? 'bg-violet-400/15 text-violet-300'
-                                  : 'bg-rose-500/15 text-rose-300'
-                        }`}
-                      >
-                        <Icon size={21} />
-                      </span>
-                      <span className="rounded-full bg-slate-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.1em] text-slate-400">
-                        {tool.category}
-                      </span>
-                    </div>
-                    <span className="mt-5 text-base font-bold text-slate-100">
-                      {tool.title}
-                    </span>
-                    <span className="mt-1.5 text-sm leading-5 text-slate-400">
-                      {tool.description}
-                    </span>
-                    <span className="mt-auto flex w-full items-center justify-between pt-4 text-xs font-semibold text-slate-400">
-                      <span>{tool.time}</span>
-                      <span className="inline-flex items-center gap-1 text-cyan-300 transition group-hover:gap-2">
-                        Open tool <ArrowRight size={14} />
-                      </span>
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="mt-6 rounded-2xl border border-dashed border-slate-700 bg-[#111a2b] px-6 py-12 text-center">
-              <Search className="mx-auto text-slate-400" size={25} />
-              <p className="mt-3 font-semibold text-slate-100">No tools found</p>
-              <p className="mt-1 text-sm text-slate-400">
-                Try another search or category.
-              </p>
-              <button
-                onClick={() => {
-                  setQuery('');
-                  setCategory('All tools');
-                }}
-                className="mt-4 rounded-lg px-3 py-2 text-sm font-semibold text-cyan-300 hover:bg-white/5"
-              >
-                Clear filters
-              </button>
-            </div>
-          )}
-        </section>
-
-        <section
-          id="workspace"
-          className="scroll-mt-24 border-y border-slate-800 bg-[#0d1526]"
-        >
-          <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 md:grid-cols-[.72fr_1.28fr] md:gap-12 md:py-16 lg:px-8">
-            <div className="md:pt-2">
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-300">
-                {tools[active].eyebrow}
-              </p>
-              <h2 className="font-display mt-3 text-3xl font-extrabold tracking-[-.05em] text-white">
-                {tools[active].title}
-              </h2>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-slate-300">
-                {tools[active].description}
-              </p>
-              <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-200">
-                <LockKeyhole size={14} /> Processed locally in your browser
-              </div>
-            </div>
-
-            <div className="min-w-0 rounded-2xl border border-slate-700 bg-[#111a2b] p-4 shadow-[0_12px_38px_-28px_rgba(22,48,78,.2)] sm:p-6">
-              <ToolContent key={active} id={active} />
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="privacy"
-          className="mx-auto max-w-7xl scroll-mt-20 px-5 py-14 md:py-20 lg:px-8"
-        >
-          <div className="grid gap-8 rounded-[1.6rem] bg-[#142f54] px-6 py-8 text-white sm:px-9 md:grid-cols-[.9fr_1.1fr] md:items-center md:px-12 md:py-12">
-            <div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-cyan-300">
-                <LockKeyhole size={20} />
-              </div>
-              <h2 className="font-display mt-5 text-2xl font-extrabold tracking-[-.04em] md:text-3xl">
-                Private by default.
-                <br />
-                Not by fine print.
-              </h2>
-            </div>
-
-            <div>
-              <p className="text-sm leading-6 text-blue-100">
-                Your files are processed locally by your browser. They are not
-                uploaded to a server, stored, or shared. When you leave the
-                page, your work stays with you.
-              </p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
-                  <Check size={17} className="text-cyan-300" />
-                  <p className="mt-2 text-sm font-semibold">No file uploads</p>
-                  <p className="mt-1 text-xs leading-5 text-blue-100/75">
-                    Images and PDFs stay on your device.
-                  </p>
-                </div>
-                <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
-                  <Check size={17} className="text-cyan-300" />
-                  <p className="mt-2 text-sm font-semibold">
-                    No account required
-                  </p>
-                  <p className="mt-1 text-xs leading-5 text-blue-100/75">
-                    Open a tool and get on with your day.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="border-t border-slate-800 bg-[#080d19]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
-          <div className="flex items-center gap-3">
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#153c70] text-[10px] font-extrabold text-white">
-              ST
-            </span>
-            <span className="font-semibold text-slate-100">SmartTools PK</span>
-            <span className="text-slate-700">|</span>
-            <button onClick={() => openTool('privacy-policy')} className="hover:text-cyan-300 transition">
-              Privacy Policy
-            </button>
-            <span className="text-slate-700">|</span>
-            <button onClick={() => openTool('contact-us')} className="hover:text-cyan-300 transition">
-              Contact Us
-            </button>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <p>
-              Built by <span className="font-semibold text-slate-200">Sarang Khan</span>
-            </p>
-            {/* Idea 2 Style Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-1.5 text-xs text-slate-300 shadow-sm">
-              <span>Crafted with 💙 by</span>
-              <span className="font-bold text-white">Sarang Khan</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* 🤖 Embedded Floating AI Assistant Widget */}
-      <AIAssistantWidget />
-    </div>
-  );
-}
-
-export default App;
