@@ -1,5 +1,5 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X } from 'lucide-react';
+import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send } from 'lucide-react';
 
 const ImageCompressor = lazy(() => import('./tools/ImageCompressor'));
 const ImageToPdf = lazy(() => import('./tools/ImageToPdf'));
@@ -151,6 +151,98 @@ function ToolContent({ id }: { id: ToolId }) {
   );
 }
 
+// 🤖 AI Assistant Component Integrated Inside App
+function AIAssistantWidget() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([
+    { sender: 'ai', text: 'Assalam-o-Alaikum! Main SmartTools PK ka AI Assistant hoon. Aapko kis tool ya feature mein madad chahiye?' }
+  ]);
+  const [input, setInput] = useState('');
+
+  const handleSend = () => {
+    if (!input.trim()) return;
+    
+    const newMessages = [...messages, { sender: 'user', text: input }];
+    setMessages(newMessages);
+    setInput('');
+
+    setTimeout(() => {
+      setMessages(prev => [
+        ...prev,
+        { sender: 'ai', text: 'Shukriya! SmartTools PK par Image Compressor, PDF Tools aur QR Generator pehle se maujood hain. Aap upar diye gaye tools ko asani se use kar saktay hain.' }
+      ]);
+    }, 1000);
+  };
+
+  return (
+    <div className="fixed bottom-6 right-6 z-50">
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="group flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-2xl transition hover:scale-110 hover:bg-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-500/30"
+          title="Open AI Assistant"
+        >
+          <Bot size={24} />
+        </button>
+      )}
+
+      {isOpen && (
+        <div className="flex h-[450px] w-[340px] flex-col overflow-hidden rounded-2xl border border-slate-700 bg-[#111a2b] shadow-2xl sm:w-[380px]">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-slate-700 bg-[#0d1526] px-4 py-3">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-3 w-3 rounded-full bg-cyan-400 animate-pulse" />
+              <h3 className="text-sm font-bold text-white">SmartTools AI Assistant</h3>
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="rounded-lg p-1 text-slate-400 hover:bg-white/5 hover:text-white"
+            >
+              <X size={18} />
+            </button>
+          </div>
+
+          {/* Messages Body */}
+          <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`max-w-[85%] rounded-2xl px-4 py-2.5 leading-relaxed ${
+                  msg.sender === 'user'
+                    ? 'ml-auto bg-blue-600 text-white'
+                    : 'mr-auto border border-slate-700 bg-[#172338] text-slate-200'
+                }`}
+              >
+                {msg.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Input Footer */}
+          <div className="border-t border-slate-700 bg-[#0d1526] p-3">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                placeholder="Yahan sawal likhein..."
+                className="h-10 flex-1 rounded-xl border border-slate-700 bg-[#111a2b] px-3 text-sm text-slate-200 outline-none placeholder:text-slate-500 focus:border-blue-400"
+              />
+              <button
+                onClick={handleSend}
+                className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white transition hover:bg-blue-500"
+              >
+                <Send size={16} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function App() {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<Category>('All tools');
@@ -177,7 +269,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-[#080d19] text-slate-100">
+    <div className="min-h-[100dvh] bg-[#080d19] text-slate-100 relative">
       <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#080d19]/95 backdrop-blur-md">
         <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-4 px-5 lg:px-8">
           <a
@@ -195,7 +287,7 @@ function App() {
               </span>
             </span>
             <span className="leading-tight">
-              <span className="font-display block text-[16px] font-extrabold tracking-[-.04em] text-[#132d50]">
+              <span className="font-display block text-[16px] font-extrabold tracking-[-.04em] text-white">
                 SmartTools <span className="text-cyan-300">PK</span>
               </span>
               <span className="hidden text-[10px] font-medium tracking-[.11em] text-slate-500 sm:block">
@@ -234,14 +326,14 @@ function App() {
             <a
               onClick={() => setMenuOpen(false)}
               href="#tools"
-              className="block rounded-lg px-2 py-3 text-sm font-semibold text-slate-700"
+              className="block rounded-lg px-2 py-3 text-sm font-semibold text-slate-300"
             >
               Explore tools
             </a>
             <a
               onClick={() => setMenuOpen(false)}
               href="#privacy"
-              className="block rounded-lg px-2 py-3 text-sm font-semibold text-slate-700"
+              className="block rounded-lg px-2 py-3 text-sm font-semibold text-slate-300"
             >
               Your privacy
             </a>
@@ -372,7 +464,7 @@ function App() {
                 </div>
 
                 <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#0b1220] px-3.5 py-3">
-                  <LockKeyhole size={17} className="shrink-0 text-teal-800" />
+                  <LockKeyhole size={17} className="shrink-0 text-cyan-400" />
                   <p className="text-xs leading-5 text-slate-300">
                     <strong className="font-semibold text-slate-100">
                       Your files stay yours.
@@ -415,7 +507,7 @@ function App() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search tools…"
-                className="h-12 w-full rounded-xl border border-slate-700 bg-[#111a2b] pl-10 pr-4 text-sm outline-none transition placeholder:text-slate-100 text-slate-400 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/20"
+                className="h-12 w-full rounded-xl border border-slate-700 bg-[#111a2b] pl-10 pr-4 text-sm text-slate-200 outline-none transition placeholder:text-slate-500 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/20"
               />
             </label>
           </div>
@@ -434,7 +526,7 @@ function App() {
                 className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition ${
                   category === item
                     ? 'border-blue-500 bg-blue-600 text-white'
-                    : 'border-slate-200 bg-white text-slate-600 hover:border-blue-200 hover:text-cyan-300'
+                    : 'border-slate-700 bg-[#111a2b] text-slate-300 hover:border-slate-600 hover:text-cyan-300'
                 }`}
               >
                 {item}
@@ -451,7 +543,7 @@ function App() {
                     key={tool.id}
                     data-testid={`card-tool-${tool.id}`}
                     onClick={() => openTool(tool.id)}
-                    className={`group reveal flex min-h-[190px] flex-col rounded-2xl border bg-[#111a2b] p-5 text-left shadow-[0_1px_2px_rgba(22,48,78,.025)] transition hover:-translate-y-1 hover:border-blue-400/60 hover:shadow-[0_18px_40px_-18px_rgba(59,130,246,.35)] ${
+                    className={`group reveal flex min-h-[190px] flex-col rounded-2xl border bg-[#111a2b] p-5 text-left transition hover:-translate-y-1 hover:border-blue-400/60 hover:shadow-[0_18px_40px_-18px_rgba(59,130,246,.35)] ${
                       active === tool.id
                         ? 'border-blue-400/50'
                         : 'border-slate-700'
@@ -471,12 +563,12 @@ function App() {
                                 ? 'bg-amber-400/15 text-amber-300'
                                 : tool.accent === 'violet'
                                   ? 'bg-violet-400/15 text-violet-300'
-                                  : 'bg-rose-50 text-rose-800'
+                                  : 'bg-rose-500/15 text-rose-300'
                         }`}
                       >
                         <Icon size={21} />
                       </span>
-                      <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.1em] text-slate-500">
+                      <span className="rounded-full bg-slate-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.1em] text-slate-400">
                         {tool.category}
                       </span>
                     </div>
@@ -528,7 +620,7 @@ function App() {
               <h2 className="font-display mt-3 text-3xl font-extrabold tracking-[-.05em] text-white">
                 {tools[active].title}
               </h2>
-              <p className="mt-3 max-w-sm text-sm leading-6 text-slate-600">
+              <p className="mt-3 max-w-sm text-sm leading-6 text-slate-300">
                 {tools[active].description}
               </p>
               <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-200">
@@ -548,7 +640,7 @@ function App() {
         >
           <div className="grid gap-8 rounded-[1.6rem] bg-[#142f54] px-6 py-8 text-white sm:px-9 md:grid-cols-[.9fr_1.1fr] md:items-center md:px-12 md:py-12">
             <div>
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-teal-300">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-cyan-300">
                 <LockKeyhole size={20} />
               </div>
               <h2 className="font-display mt-5 text-2xl font-extrabold tracking-[-.04em] md:text-3xl">
@@ -566,14 +658,14 @@ function App() {
               </p>
               <div className="mt-5 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
-                  <Check size={17} className="text-teal-300" />
+                  <Check size={17} className="text-cyan-300" />
                   <p className="mt-2 text-sm font-semibold">No file uploads</p>
                   <p className="mt-1 text-xs leading-5 text-blue-100/75">
                     Images and PDFs stay on your device.
                   </p>
                 </div>
                 <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
-                  <Check size={17} className="text-teal-300" />
+                  <Check size={17} className="text-cyan-300" />
                   <p className="mt-2 text-sm font-semibold">
                     No account required
                   </p>
@@ -602,6 +694,9 @@ function App() {
           </p>
         </div>
       </footer>
+
+      {/* 🤖 Embedded Floating AI Assistant Widget */}
+      <AIAssistantWidget />
     </div>
   );
 }
