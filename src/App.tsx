@@ -357,4 +357,437 @@ function App() {
               <span className="font-display block text-[16px] font-extrabold tracking-[-.04em] text-white">
                 SmartTools <span className="text-cyan-300">PK</span>
               </span>
-              <span className="hidden text-[10px] font-medium tracking-[.11em] text-slate-500 sm
+              <span className="hidden text-[10px] font-medium tracking-[.11em] text-slate-500 sm:block">
+                EVERYDAY TOOLS. MADE SIMPLE.
+              </span>
+            </span>
+          </a>
+
+          <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-300 md:flex">
+            <a href="#tools" className="transition hover:text-cyan-300">
+              Explore tools
+            </a>
+            <button onClick={() => openTool('privacy-policy')} className="transition hover:text-cyan-300">
+              Privacy Policy
+            </button>
+            <button onClick={() => openTool('contact-us')} className="transition hover:text-cyan-300">
+              Contact Us
+            </button>
+          </nav>
+
+          <a
+            href="#tools"
+            className="hidden items-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500 sm:inline-flex"
+          >
+            Find a tool <ArrowRight size={15} />
+          </a>
+
+          <button
+            aria-label={menuOpen ? 'Close navigation' : 'Open navigation'}
+            onClick={() => setMenuOpen((v) => !v)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-700 text-slate-200 md:hidden"
+          >
+            {menuOpen ? <X size={19} /> : <Menu size={19} />}
+          </button>
+        </div>
+
+        {menuOpen && (
+          <nav className="border-t border-slate-800 bg-[#0d1526] px-5 py-3 md:hidden space-y-2">
+            <a
+              onClick={() => setMenuOpen(false)}
+              href="#tools"
+              className="block rounded-lg px-2 py-2 text-sm font-semibold text-slate-300"
+            >
+              Explore tools
+            </a>
+            <button
+              onClick={() => { setMenuOpen(false); openTool('privacy-policy'); }}
+              className="block w-full text-left rounded-lg px-2 py-2 text-sm font-semibold text-slate-300"
+            >
+              Privacy Policy
+            </button>
+            <button
+              onClick={() => { setMenuOpen(false); openTool('contact-us'); }}
+              className="block w-full text-left rounded-lg px-2 py-2 text-sm font-semibold text-slate-300"
+            >
+              Contact Us
+            </button>
+          </nav>
+        )}
+      </header>
+
+      <main>
+        <section className="relative overflow-hidden border-b border-slate-800 bg-[#0d1526]">
+          <div className="pointer-events-none absolute -right-24 -top-36 h-[450px] w-[450px] rounded-full border border-blue-400/20" />
+          <div className="pointer-events-none absolute right-[-3rem] top-[-8rem] h-[350px] w-[350px] rounded-full border border-cyan-400/15" />
+
+          <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-5 pb-14 pt-14 md:grid-cols-[1.2fr_.8fr] md:pb-20 md:pt-20 lg:px-8 lg:pt-24">
+            <div className="reveal max-w-2xl">
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-blue-400/30 bg-blue-500/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-blue-200">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />
+                A little less digital busywork
+              </div>
+
+              <h1 className="font-display max-w-2xl text-[clamp(2.8rem,7vw,5.35rem)] font-extrabold leading-[.99] tracking-[-.065em] text-white">
+                The tools you need.
+                <br />
+                <span className="text-cyan-300">Nothing in the way.</span>
+              </h1>
+
+              <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 md:text-lg">
+                Compress an image, sort out a PDF, or get your words in shape.
+                Quick, practical tools that work right here on your device.
+              </p>
+
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <a
+                  href="#tools"
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-blue-500"
+                >
+                  Explore all tools <ArrowDownRight size={17} />
+                </a>
+                <button
+                  onClick={() => openTool('privacy-policy')}
+                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold text-slate-200 transition hover:bg-white/5"
+                >
+                  <LockKeyhole size={16} className="text-cyan-300" />
+                  Private by design
+                </button>
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs font-medium text-slate-400">
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={14} className="text-cyan-300" /> No account
+                  needed
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={14} className="text-cyan-300" /> Free to use
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Check size={14} className="text-cyan-300" /> Files stay on
+                  your device
+                </span>
+              </div>
+            </div>
+
+            <div
+              className="reveal relative mx-auto w-full max-w-[410px] md:justify-self-end"
+              style={{ animationDelay: '100ms' }}
+            >
+              <div className="absolute -inset-5 rounded-[2.5rem] bg-gradient-to-br from-blue-500/25 via-transparent to-cyan-400/15 blur-2xl" />
+              <div className="relative rounded-[1.6rem] border border-slate-700 bg-[#111a2b] p-5 shadow-[0_24px_70px_-34px_rgba(20,55,95,.25)] sm:p-6">
+                <div className="flex items-center justify-between border-b border-slate-700 pb-4">
+                  <span className="text-xs font-bold uppercase tracking-[.16em] text-slate-400">
+                    Your everyday toolkit
+                  </span>
+                  <span className="rounded-full bg-cyan-400/10 px-2.5 py-1 text-[10px] font-bold text-cyan-300">
+                    ON DEVICE
+                  </span>
+                </div>
+
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  {[
+                    ['Image compressor', 'Image', Image],
+                    ['PDF merger', 'PDF', FileText],
+                    ['Image to PDF', 'PDF', FileImage],
+                    ['Word counter', 'Text', Type],
+                  ].map(([title, tag, Icon], i) => {
+                    const IconComponent = Icon as typeof Image;
+                    return (
+                      <button
+                        key={String(title)}
+                        onClick={() =>
+                          openTool(
+                            (
+                              [
+                                'compress',
+                                'merge-pdf',
+                                'image-pdf',
+                                'counter',
+                              ] as ToolId[]
+                            )[i],
+                          )
+                        }
+                        className="group rounded-2xl border border-slate-700 bg-[#172338] p-4 text-left transition hover:-translate-y-1 hover:border-blue-400/60 hover:shadow-[0_12px_30px_-12px_rgba(59,130,246,.35)]"
+                      >
+                        <span
+                          className={`mb-5 flex h-10 w-10 items-center justify-center rounded-xl ${
+                            i === 0
+                              ? 'bg-blue-500/15 text-blue-300'
+                              : i === 1
+                                ? 'bg-amber-400/15 text-amber-300'
+                                : i === 2
+                                  ? 'bg-cyan-400/15 text-cyan-300'
+                                  : 'bg-violet-400/15 text-violet-300'
+                          }`}
+                        >
+                          <IconComponent size={19} />
+                        </span>
+                        <span className="block text-sm font-bold text-slate-100">
+                          {String(title)}
+                        </span>
+                        <span className="mt-1 flex items-center justify-between text-[11px] text-slate-400">
+                          <span>{String(tag)}</span>
+                          <ArrowRight
+                            size={13}
+                            className="transition group-hover:translate-x-1 group-hover:text-cyan-300"
+                          />
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-4 flex items-center gap-3 rounded-xl bg-[#0b1220] px-3.5 py-3">
+                  <LockKeyhole size={17} className="shrink-0 text-cyan-400" />
+                  <p className="text-xs leading-5 text-slate-300">
+                    <strong className="font-semibold text-slate-100">
+                      Your files stay yours.
+                    </strong>{' '}
+                    Work happens in this browser, on your device.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="tools"
+          className="mx-auto max-w-7xl scroll-mt-24 px-5 py-14 md:py-20 lg:px-8"
+        >
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-300">
+                The toolbox
+              </p>
+              <h2 className="font-display mt-3 text-3xl font-extrabold tracking-[-.045em] text-white md:text-[2.65rem]">
+                Small tasks, sorted.
+              </h2>
+              <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">
+                Essential tools, no learning curve. Pick a tool and get
+                straight to work.
+              </p>
+            </div>
+
+            <label className="relative block w-full md:max-w-[320px]">
+              <span className="sr-only">Search tools</span>
+              <Search
+                size={18}
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"
+              />
+              <input
+                data-testid="input-search-tools"
+                type="search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search tools…"
+                className="h-12 w-full rounded-xl border border-slate-700 bg-[#111a2b] pl-10 pr-4 text-sm text-slate-200 outline-none transition placeholder:text-slate-500 focus:border-blue-400 focus:ring-4 focus:ring-blue-500/20"
+              />
+            </label>
+          </div>
+
+          <div
+            className="mt-7 flex flex-wrap gap-2"
+            role="group"
+            aria-label="Filter tools by category"
+          >
+            {categories.map((item) => (
+              <button
+                key={item}
+                data-testid={`filter-${item.toLowerCase().replaceAll(' ', '-').replace('&-', '')}`}
+                aria-pressed={category === item}
+                onClick={() => setCategory(item)}
+                className={`min-h-10 rounded-full border px-4 text-sm font-semibold transition ${
+                  category === item
+                    ? 'border-blue-500 bg-blue-600 text-white'
+                    : 'border-slate-700 bg-[#111a2b] text-slate-300 hover:border-slate-600 hover:text-cyan-300'
+                }`}
+              >
+                {item}
+              </button>
+            ))}
+          </div>
+
+          {filtered.length > 0 ? (
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((tool, index) => {
+                const Icon = tool.icon;
+                return (
+                  <button
+                    key={tool.id}
+                    data-testid={`card-tool-${tool.id}`}
+                    onClick={() => openTool(tool.id)}
+                    className={`group reveal flex min-h-[190px] flex-col rounded-2xl border bg-[#111a2b] p-5 text-left transition hover:-translate-y-1 hover:border-blue-400/60 hover:shadow-[0_18px_40px_-18px_rgba(59,130,246,.35)] ${
+                      active === tool.id
+                        ? 'border-blue-400/50'
+                        : 'border-slate-700'
+                    }`}
+                    style={{
+                      animationDelay: `${Math.min(index * 55, 220)}ms`,
+                    }}
+                  >
+                    <div className="flex w-full items-start justify-between">
+                      <span
+                        className={`flex h-11 w-11 items-center justify-center rounded-[14px] ${
+                          tool.accent === 'sky'
+                            ? 'bg-blue-500/15 text-blue-300'
+                            : tool.accent === 'teal'
+                              ? 'bg-cyan-400/15 text-cyan-300'
+                              : tool.accent === 'amber'
+                                ? 'bg-amber-400/15 text-amber-300'
+                                : tool.accent === 'violet'
+                                  ? 'bg-violet-400/15 text-violet-300'
+                                  : 'bg-rose-500/15 text-rose-300'
+                        }`}
+                      >
+                        <Icon size={21} />
+                      </span>
+                      <span className="rounded-full bg-slate-800 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[.1em] text-slate-400">
+                        {tool.category}
+                      </span>
+                    </div>
+                    <span className="mt-5 text-base font-bold text-slate-100">
+                      {tool.title}
+                    </span>
+                    <span className="mt-1.5 text-sm leading-5 text-slate-400">
+                      {tool.description}
+                    </span>
+                    <span className="mt-auto flex w-full items-center justify-between pt-4 text-xs font-semibold text-slate-400">
+                      <span>{tool.time}</span>
+                      <span className="inline-flex items-center gap-1 text-cyan-300 transition group-hover:gap-2">
+                        Open tool <ArrowRight size={14} />
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="mt-6 rounded-2xl border border-dashed border-slate-700 bg-[#111a2b] px-6 py-12 text-center">
+              <Search className="mx-auto text-slate-400" size={25} />
+              <p className="mt-3 font-semibold text-slate-100">No tools found</p>
+              <p className="mt-1 text-sm text-slate-400">
+                Try another search or category.
+              </p>
+              <button
+                onClick={() => {
+                  setQuery('');
+                  setCategory('All tools');
+                }}
+                className="mt-4 rounded-lg px-3 py-2 text-sm font-semibold text-cyan-300 hover:bg-white/5"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+        </section>
+
+        <section
+          id="workspace"
+          className="scroll-mt-24 border-y border-slate-800 bg-[#0d1526]"
+        >
+          <div className="mx-auto grid max-w-7xl gap-8 px-5 py-12 md:grid-cols-[.72fr_1.28fr] md:gap-12 md:py-16 lg:px-8">
+            <div className="md:pt-2">
+              <p className="text-xs font-bold uppercase tracking-[.18em] text-cyan-300">
+                {tools[active].eyebrow}
+              </p>
+              <h2 className="font-display mt-3 text-3xl font-extrabold tracking-[-.05em] text-white">
+                {tools[active].title}
+              </h2>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-slate-300">
+                {tools[active].description}
+              </p>
+              <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-cyan-400/10 px-3 py-2 text-xs font-semibold text-cyan-200">
+                <LockKeyhole size={14} /> Processed locally in your browser
+              </div>
+            </div>
+
+            <div className="min-w-0 rounded-2xl border border-slate-700 bg-[#111a2b] p-4 shadow-[0_12px_38px_-28px_rgba(22,48,78,.2)] sm:p-6">
+              <ToolContent key={active} id={active} />
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="privacy"
+          className="mx-auto max-w-7xl scroll-mt-20 px-5 py-14 md:py-20 lg:px-8"
+        >
+          <div className="grid gap-8 rounded-[1.6rem] bg-[#142f54] px-6 py-8 text-white sm:px-9 md:grid-cols-[.9fr_1.1fr] md:items-center md:px-12 md:py-12">
+            <div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10 text-cyan-300">
+                <LockKeyhole size={20} />
+              </div>
+              <h2 className="font-display mt-5 text-2xl font-extrabold tracking-[-.04em] md:text-3xl">
+                Private by default.
+                <br />
+                Not by fine print.
+              </h2>
+            </div>
+
+            <div>
+              <p className="text-sm leading-6 text-blue-100">
+                Your files are processed locally by your browser. They are not
+                uploaded to a server, stored, or shared. When you leave the
+                page, your work stays with you.
+              </p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
+                  <Check size={17} className="text-cyan-300" />
+                  <p className="mt-2 text-sm font-semibold">No file uploads</p>
+                  <p className="mt-1 text-xs leading-5 text-blue-100/75">
+                    Images and PDFs stay on your device.
+                  </p>
+                </div>
+                <div className="rounded-xl border border-white/10 bg-white/[.06] p-4">
+                  <Check size={17} className="text-cyan-300" />
+                  <p className="mt-2 text-sm font-semibold">
+                    No account required
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-blue-100/75">
+                    Open a tool and get on with your day.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-slate-800 bg-[#080d19]">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-5 py-6 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+          <div className="flex items-center gap-3">
+            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#153c70] text-[10px] font-extrabold text-white">
+              ST
+            </span>
+            <span className="font-semibold text-slate-100">SmartTools PK</span>
+            <span className="text-slate-700">|</span>
+            <button onClick={() => openTool('privacy-policy')} className="hover:text-cyan-300 transition">
+              Privacy Policy
+            </button>
+            <span className="text-slate-700">|</span>
+            <button onClick={() => openTool('contact-us')} className="hover:text-cyan-300 transition">
+              Contact Us
+            </button>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <p>
+              Built by <span className="font-semibold text-slate-200">Sarang Khan</span>
+            </p>
+            {/* Idea 2 Style Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/80 px-4 py-1.5 text-xs text-slate-300 shadow-sm">
+              <span>Crafted with 💙 by</span>
+              <span className="font-bold text-white">Sarang Khan</span>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+      {/* 🤖 Embedded Floating AI Assistant Widget */}
+      <AIAssistantWidget />
+    </div>
+  );
+}
+
+export default App;
