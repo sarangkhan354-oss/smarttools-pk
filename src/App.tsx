@@ -320,4 +320,41 @@ function App() {
     () =>
       directory.filter(
         (tool) =>
-          (category === 'All tools' || tool.
+          (category === 'All tools' || tool.category === category) &&
+          `${tool.title} ${tool.description} ${tool.category}`
+            .toLowerCase()
+            .includes(query.toLowerCase().trim()),
+      ),
+    [category, query],
+  );
+
+  function openTool(id: ToolId) {
+    setActive(id);
+    document
+      .getElementById('workspace')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  return (
+    <div className="min-h-[100dvh] bg-[#080d19] text-slate-100 relative">
+      <header className="sticky top-0 z-30 border-b border-slate-800/80 bg-[#080d19]/95 backdrop-blur-md">
+        <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between gap-4 px-5 lg:px-8">
+          <a
+            href="#"
+            aria-label="SmartTools PK home"
+            className="flex items-center gap-2.5"
+            onClick={() => {
+              setActive('compress');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          >
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#153c70] text-white">
+              <span className="font-display text-sm font-extrabold tracking-tight">
+                ST
+              </span>
+            </span>
+            <span className="leading-tight">
+              <span className="font-display block text-[16px] font-extrabold tracking-[-.04em] text-white">
+                SmartTools <span className="text-cyan-300">PK</span>
+              </span>
+              <span className="hidden text-[10px] font-medium tracking-[.11em] text-slate-500 sm
