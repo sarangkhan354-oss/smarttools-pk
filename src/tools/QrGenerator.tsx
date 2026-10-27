@@ -3,7 +3,7 @@ import { Download, Sparkles } from 'lucide-react';
 import QRCode from 'qrcode';
 
 export default function QrGenerator() {
-  const [text, setText] = useState('https://smarttools.pk');
+  const [text, setText] = useState('https://smarttoolspk.com');
   const [qrUrl, setQrUrl] = useState('');
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function QrGenerator() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="https://example.com or any message..."
-          className="w-full rounded-xl border border-slate-200 bg-white p-3 text-sm outline-none transition focus:border-blue-400 focus:ring-4 focus:ring-blue-100"
+          className="w-full rounded-xl border border-slate-300 bg-white p-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
         />
       </div>
 
@@ -38,7 +38,7 @@ export default function QrGenerator() {
           <a
             href={qrUrl}
             download="qrcode.png"
-            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-800 px-5 py-2.5 text-sm font-bold text-black hover:bg-blue-900"
+            className="mt-5 inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-bold text-white shadow-md hover:bg-blue-700 transition"
           >
             <Download size={16} /> Download QR Code
           </a>
