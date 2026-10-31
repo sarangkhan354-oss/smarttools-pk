@@ -1,3 +1,6 @@
+import { db } from './firebase';
+import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } from 'firebase/firestore';
+
 import { lazy, Suspense, useMemo, useState, useRef, useEffect } from 'react';
 import { ArrowDownRight, ArrowRight, Check, FileImage, FileText, Image, LockKeyhole, Menu, Search, Sparkles, Type, X, Bot, Send, Palette, Calculator, CaseSensitive, Zap, ShieldCheck, Star, MessageSquarePlus } from 'lucide-react';
 
@@ -389,71 +392,103 @@ function AIAssistantWidget() {
     </div>
   );
 }
-
-// 🌟 Professional Reviews & Feedback Component
+// 🌟 Professional Real-Time Firebase Reviews Component
 function ReviewsSection() {
-  const [reviews, setReviews] = useState([
-    { name: 'Ali Raza', role: 'Student', rating: 5, text: 'Image compressor aur PDF merger ne mera kaam boht asan kar diya. Best part yeh hai ke browser mein hi kaam ho jata hai!' },
-    { name: 'Fatima Noor', role: 'Graphic Designer', rating: 5, text: 'Color picker aur QR code generator (especially image-to-QR) top notch hain. Highly recommended!' },
-    { name: 'Bilal Ahmed', role: 'Developer', rating: 5, text: 'Clean UI, zero ads lagaye bina itne fast tools. Sarang bhai great work!' }
-  ]);
-
+  const [reviews, setReviews] = useState<any[]>([]);
   const [name, setName] = useState('');
   const [role, setRole] = useState('');
   const [text, setText] = useState('');
   const [rating, setRating] = useState(5);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Fetch reviews in real-time from Firebase Cloud Database
+  useEffect(() => {
+    const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const fetchedReviews = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setReviews(fetchedReviews);
+      setLoading(false);
+    }, (error) => {
+      console.error("Firebase fetch error:", error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !text.trim()) return;
 
-    const newReview = {
-      name: name.trim(),
-      role: role.trim() || 'User',
-      rating,
-      text: text.trim()
-    };
+    try {
+      await addDoc(collection(db, "reviews"), {
+        name: name.trim(),
+        role: role.trim() || 'User',
+        rating,
+        text: text.trim(),
+        createdAt: serverTimestamp()
+      });
 
-    setReviews([newReview, ...reviews]);
-    setName('');
-    setRole('');
-    setText('');
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+      setName('');
+      setRole('');
+      setText('');
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (error) {
+      console.error("Error adding review: ", error);
+      alert("Failed to submit review. Please try again.");
+    }
   };
+
+  const defaultReviews = [
+    { name: 'Ali Raza', role: 'Student', rating: 5, text: 'Image compressor aur PDF merger ne mera kaam boht asan kar diya. Best part yeh hai ke browser mein hi kaam ho jata hai!' },
+    { name: 'Fatima Noor', role: 'Graphic Designer', rating: 5, text: 'Color picker aur QR code generator (especially image-to-QR) top notch hain. Highly recommended!' },
+    { name: 'Bilal Ahmed', role: 'Developer', rating: 5, text: 'Clean UI, zero ads lagaye bina itne fast tools. Sarang bhai great work!' }
+  ];
+
+  const displayReviews = reviews.length > 0 ? reviews : defaultReviews;
 
   return (
     <section id="reviews" className="mx-auto max-w-7xl px-5 py-16 md:py-24 lg:px-8 border-t border-slate-800/80">
       <div className="text-center max-w-2xl mx-auto mb-12">
         <div className="inline-flex items-center gap-2 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-4 py-1.5 text-xs font-semibold text-cyan-300 mb-4">
-          <Star size={14} className="fill-cyan-300" /> User Testimonials
+          <Star size={14} className="fill-cyan-300" /> Live User Testimonials
         </div>
         <h2 className="font-display text-3xl font-extrabold tracking-tight text-white md:text-4xl">
           Loved by people everywhere.
         </h2>
         <p className="mt-3 text-sm text-slate-300">
-          See what our users are saying about SmartTools PK, or leave your own feedback.
+          See live reviews from real users around the world, or leave your own feedback!
         </p>
       </div>
 
       {/* Reviews Grid */}
-      <div className="grid gap-6 md:grid-cols-3 mb-16">
-        {reviews.map((rev, idx) => (
-          <div key={idx} className="flex flex-col rounded-3xl border border-slate-700/80 bg-[#111a2b] p-6 shadow-xl relative group hover:border-cyan-400/50 transition">
-            <div className="flex items-center gap-1 text-amber-400 mb-4">
-              {[...Array(rev.rating)].map((_, i) => (
-                <Star key={i} size={16} className="fill-amber-400" />
-              ))}
+      {loading ? (
+        <div className="text-center py-8 text-cyan-400 font-semibold text-sm animate-pulse">
+          Loading live reviews...
+        </div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-3 mb-16">
+          {displayReviews.map((rev: any, idx: number) => (
+            <div key={rev.id || idx} className="flex flex-col rounded-3xl border border-slate-700/80 bg-[#111a2b] p-6 shadow-xl relative group hover:border-cyan-400/50 transition">
+              <div className="flex items-center gap-1 text-amber-400 mb-4">
+                {[...Array(rev.rating || 5)].map((_, i) => (
+                  <Star key={i} size={16} className="fill-amber-400" />
+                ))}
+              </div>
+              <p className="text-sm leading-relaxed text-slate-300 italic mb-6">"{rev.text}"</p>
+              <div className="mt-auto flex items-center justify-between border-t border-slate-800 pt-4">
+                <span className="font-bold text-slate-200 text-sm">{rev.name}</span>
+                <span className="rounded-full bg-slate-800 px-3 py-0.5 text-[11px] font-medium text-cyan-400">{rev.role}</span>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed text-slate-300 italic mb-6">"{rev.text}"</p>
-            <div className="mt-auto flex items-center justify-between border-t border-slate-800 pt-4">
-              <span className="font-bold text-slate-200 text-sm">{rev.name}</span>
-              <span className="rounded-full bg-slate-800 px-3 py-0.5 text-[11px] font-medium text-cyan-400">{rev.role}</span>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Leave Feedback Form */}
       <div className="max-w-xl mx-auto rounded-3xl border border-cyan-500/30 bg-gradient-to-br from-[#111a2b] to-[#0d1526] p-6 sm:p-8 shadow-2xl">
@@ -463,13 +498,13 @@ function ReviewsSection() {
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Leave Your Review</h3>
-            <p className="text-xs text-slate-400">Share your experience with SmartTools PK</p>
+            <p className="text-xs text-slate-400">Your review will be published live globally</p>
           </div>
         </div>
 
         {submitted ? (
           <div className="rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-center text-emerald-300 text-sm font-semibold animate-pulse">
-            🎉 Thank you! Your review has been successfully added.
+            🎉 Thank you! Your review is now live globally!
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -526,7 +561,7 @@ function ReviewsSection() {
               type="submit"
               className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3 text-sm font-bold text-white shadow-lg shadow-cyan-500/20 transition hover:scale-[1.02]"
             >
-              Submit Review 🚀
+              Submit Live Review 🚀
             </button>
           </form>
         )}
